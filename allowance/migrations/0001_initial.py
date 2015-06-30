@@ -3,11 +3,13 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 import allowance.models
+from django.conf import settings
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
@@ -21,6 +23,22 @@ class Migration(migrations.Migration):
             ],
             options={
                 'ordering': ['-year', '-month'],
+            },
+        ),
+        migrations.CreateModel(
+            name='Transaction',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('negative', models.BooleanField(default=True, verbose_name=b'Sign', choices=[(False, b'plus'), (True, b'minus')])),
+                ('amount', models.DecimalField(max_digits=6, decimal_places=2)),
+                ('description', models.CharField(max_length=120, null=True, blank=True)),
+                ('memo', models.TextField(null=True, blank=True)),
+                ('timestamp', models.DateTimeField(auto_now_add=True)),
+                ('period', models.ForeignKey(to='allowance.Period')),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+                'ordering': ['timestamp'],
             },
         ),
     ]

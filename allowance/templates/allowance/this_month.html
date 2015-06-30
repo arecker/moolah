@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<b>Add Transaction</b>
+<form method="post" action="/transactions/">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Add" />
+</form>
+
+<hr/>
+
+{% for set in sets %}
+<p>User: {{ set.user }}</p>
+<p>Balance: ${{ set.balance }}</p>
+
+<table>
+  <tr>
+    <td>Date</td>
+    <td>Amount</td>
+    <td>Description</td>
+  </tr>
+  {% for item in set.transactions %}
+  <tr>
+    <td>{{ item.timestamp }}</td>
+    <td>{% if item.negative %}-{% endif %} ${{ item.amount }}</td>
+    <td>{{ item.description }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endfor %}
+
+{% endblock %}
