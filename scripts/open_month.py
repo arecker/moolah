@@ -10,8 +10,6 @@ from django.utils import timezone
 
 
 def run():
-    import ipdb
-    ipdb.set_trace()
     current_period = Period.objects.latest()
     Period().save()
     next_period = Period.objects.latest()
