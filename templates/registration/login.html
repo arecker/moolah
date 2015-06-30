@@ -1,25 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
-
-{% if next %}
-    {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
-    {% else %}
-    <p>Please login to see this page.</p>
-    {% endif %}
-{% endif %}
-
-<form method="post" action="{% url 'django.contrib.auth.views.login' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" value="login" />
-  <input type="hidden" name="next" value="{{ next }}" />
-</form>
+<div class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+    <div class="jumbotron">
+      <form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="{{ form.user.id_for_label }}">Username</label>
+          <input name="username" id="{{ form.user.id_for_label }}" class="form-control" type="text" />
+        </div>
+        <div class="form-group">
+          <label for="{{ form.password.id_for_label }}">Password</label>
+          <input name="password" id="{{ form.password.id_for_label }}" class="form-control" type="password" />
+        </div>
+        <input type="submit" class="btn btn-success" value="login" />
+        <input type="hidden" name="next" value="{{ next }}" />
+      </form>
+    </div>
+  </div>
+  <div class="col-md-4"></div>
+</div>
 
 {% endblock %}

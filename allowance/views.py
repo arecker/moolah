@@ -17,7 +17,7 @@ def this_month(request):
             'balance': Transaction.objects.balance(user=user),
             'transactions': Transaction.objects.latest_set_for_user(user)
         })
-    return render_to_response('allowance/this_month.html', { 'sets': sets, 'period': Period.objects.latest() })
+    return render_to_response('allowance/this_month.html', RequestContext(request, { 'sets': sets, 'period': Period.objects.latest() }))
 
 
 @login_required
