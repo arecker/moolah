@@ -1,4 +1,5 @@
 import os
+from decimal import Decimal
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'm!pj*zv*dyzc#pmuu@0+7=pl6_yu3qn5b*)=o2-v7p#oj-6y3j'
@@ -13,6 +14,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # 3rd party
+    'django_extensions',
+    
     # Apps
     'allowance',
 )
@@ -61,6 +65,18 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
+ALLOWANCE_LIMIT = Decimal(100)
+
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'prod_static')
+STATICFILES_FINDERS = (
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    'djangobower.finders.BowerFinder',
+    'compressor.finders.CompressorFinder',
+)
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )

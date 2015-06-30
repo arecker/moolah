@@ -10,5 +10,7 @@ class TransactionForm(ModelForm):
             'user',
             'negative',
             'amount',
-            'description'
+            'reason',
+            'description',
+            'memo'
         ]

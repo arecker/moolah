@@ -7,5 +7,6 @@ urlpatterns = [
     url('^', include('django.contrib.auth.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.this_month),
-    url(r'^transactions/$', views.transactions)
+    url(r'^transactions/$', views.transactions),
+    url(r'^transactions/add/$', views.transactions_add)
 ]

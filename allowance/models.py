@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from decimal import Decimal
 
 
 month_choices = (
@@ -21,6 +22,16 @@ month_choices = (
 negative_choices = (
     (False, 'plus'),
     (True, 'minus')
+)
+
+reason_choices = (
+    (0, 'Allowance'),
+    (1, 'Purchace'),
+    (2, 'Refund'),
+    (3, 'Penalty'),
+    (4, 'Reward'),
+    (5, 'Miscellaneous'),
+    (6, 'Error')
 )
 
 
@@ -57,12 +68,32 @@ class TransactionManager(models.Manager):
         period = Period.objects.latest()
         return super(models.Manager, self).filter(period=period).filter(user=user)
 
+
+    def period(self, user, period=None):
+        if not period:
+            period = Period.objects.latest()
+        return super(models.Manager, self).filter(period=period).filter(user=user)
+
+
+    def balance(self, user, period=None):
+        ts = self.period(user, period=period)
+        try:
+            pos = Decimal(ts.filter(negative=False).aggregate(models.Sum('amount'))['amount__sum'])
+        except:
+            pos = Decimal(0)
+        try:
+            neg = Decimal(ts.filter(negative=True).aggregate(models.Sum('amount'))['amount__sum'])
+        except:
+            neg = Decimal(0)
+        return pos - neg
+
     
 class Transaction(models.Model):
     period = models.ForeignKey(Period)
     user = models.ForeignKey(User)
     negative = models.BooleanField(verbose_name='Sign', choices=negative_choices, default=True)
     amount = models.DecimalField(max_digits=6, decimal_places=2)
+    reason = models.IntegerField(choices=reason_choices, default=0)
     description = models.CharField(max_length=120, null=True, blank=True)
     memo = models.TextField(null=True, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)

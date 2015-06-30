@@ -1,34 +1,43 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<b>Add Transaction</b>
-<form method="post" action="/transactions/">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" value="Add" />
-</form>
-
-<hr/>
-
-{% for set in sets %}
-<p>User: {{ set.user }}</p>
-<p>Balance: ${{ set.balance }}</p>
-
-<table>
-  <tr>
-    <td>Date</td>
-    <td>Amount</td>
-    <td>Description</td>
-  </tr>
-  {% for item in set.transactions %}
-  <tr>
-    <td>{{ item.timestamp }}</td>
-    <td>{% if item.negative %}-{% endif %} ${{ item.amount }}</td>
-    <td>{{ item.description }}</td>
-  </tr>
-  {% endfor %}
-</table>
-{% endfor %}
-
+<div class="container-fluid">
+  <div class="page-header">
+    <h1>{{ period }}</h1>
+  </div>
+  <div class="well">
+    <a class="btn btn-primary" href="/transactions/add/">Add</a>
+    <a class="btn btn-default" href="/logout">Logout</a>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    {% for set in sets %}
+    <div class="col-md-6">
+      <div class="page-header">
+        <h1 class="lead">{{ set.user }}</h1>
+      </div>
+      <table class="table">
+        <tr>
+          <td>Date</td>
+          <td>Amount</td>
+          <td>Reason</td>
+          <td>Description</td>
+        </tr>
+        {% for item in set.transactions %}
+        <tr>
+          <td>{{ item.timestamp }}</td>
+          <td>{% if item.negative %}-{% endif %} ${{ item.amount }}</td>
+          <td>{{ item.get_reason_display }}</td>
+          <td>{{ item.description }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+          <th>Total: {{ set.balance }}</th>
+        </tr>
+      </table>
+    </div>
+    {% endfor %}
+  </div>
+</div>	
 {% endblock %}

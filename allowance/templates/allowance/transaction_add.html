@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+  <div class="page-header">
+    <h1>Add Transaction</h1>
+  </div>
+  <form method="post" action="/transactions/">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input class="btn btn-success" type="submit" value="Add" />
+  </form>
+</div>
+
+{% endblock %}
