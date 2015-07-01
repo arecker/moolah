@@ -4,6 +4,17 @@
       <div class="navbar-header">
         <a class="navbar-brand" href="/">moolah</a>
       </div>
+      {% if user.is_authenticated %}
+      <ul class="nav navbar-nav navbar">
+        <li>
+          <a href="/">This Month</a>
+        </li>
+        <li>
+          <a href="/periods">Past Months</a>
+        </li>
+      </ul>
+      {% else %}
+      {% endif %}
       <ul class="nav navbar-nav navbar-right">
         {% if user.is_authenticated %}
         <li class="dropdown">

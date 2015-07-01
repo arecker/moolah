@@ -1,6 +1,7 @@
 """
 1. Open new month
-2. Award each user calculated balance
+2. Close last month
+3. Award each user calculated balance
 """
 from allowance.models import Transaction, Period
 from django.contrib.auth.models import User
@@ -11,6 +12,8 @@ from django.utils import timezone
 
 def run():
     current_period = Period.objects.latest()
+    current_period.closed = True
+    current_period.save()
     Period().save()
     next_period = Period.objects.latest()
     for user in User.objects.all():

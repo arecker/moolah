@@ -8,5 +8,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.this_month),
     url(r'^transactions/$', views.transactions),
-    url(r'^transactions/add/$', views.transactions_add)
+    url(r'^transactions/add/$', views.transactions_add),
+    url(r'^periods/$', views.periods),
+    url(r'^periods/(?P<id>\d+)/$', views.periods_detail),
 ]

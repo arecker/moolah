@@ -6,9 +6,11 @@
   <div class="page-header">
     <h1>{{ period }}</h1>
   </div>
+  {% if not period.closed %}
   <div class="well">
     <a class="btn btn-primary" href="/transactions/add/">Add Transaction</a>
   </div>
+  {% endif %}
 </div>
 <div class="container-fluid">
   <div class="row">
@@ -42,8 +44,9 @@
 </div>
 {% else %}
 <div class="well">
-  <h1>No open allowance period found</h1>
-  <p>Try again later</p>
+  <h1>Nothing Here</h1>
+  <p>There are no open periods right now.</p>
+  <p>Try again later?</p>
 </div>
 {% endif %}
 {% endblock %}

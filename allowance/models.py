@@ -52,15 +52,22 @@ class Period(models.Model):
     month = models.IntegerField(default=get_month, choices=month_choices)
     year = models.BigIntegerField(default=get_year)
     timestamp = models.DateTimeField(auto_now_add=True)
+    closed = models.BooleanField(default=False)
 
     objects = PeriodManager()
 
     class Meta:
         ordering = ['-year', '-month']
+        unique_together = ('month', 'year')
         
     
     def __unicode__(self):
         return '{0}/{1}'.format(self.month, self.year)
+
+
+    @property
+    def name(self):
+        return self.__unicode__()
 
 
 class TransactionManager(models.Manager):
@@ -102,6 +109,13 @@ class Transaction(models.Model):
     
     class Meta:
         ordering = ['timestamp']
+
+
+    def save(self, *args, **kwargs):
+        if self.period.closed:
+            raise Exception('Attempted to add transaction to closed period {0}'.format(self.period.id))
+        super(Transaction, self).save(*args, **kwargs)
+        
 
     def __unicode__(self):
         if self.negative:
