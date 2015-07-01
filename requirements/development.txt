@@ -2,7 +2,7 @@
 Django==1.8.2
 
 # Common Reqs
--r common.txt2
+-r common.txt
 
 # Helpful development packages
 ipdb==0.8
