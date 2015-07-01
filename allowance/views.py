@@ -13,7 +13,7 @@ def this_month(request):
     sets = []
     for user in User.objects.all():
         sets.append({
-            'user': user.__unicode__,
+            'user': user.get_full_name() or user.get_username(),
             'balance': Transaction.objects.balance(user=user),
             'transactions': Transaction.objects.latest_set_for_user(user)
         })
