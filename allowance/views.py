@@ -34,6 +34,8 @@ def transactions(request):
     if request.method == 'POST':
         f = TransactionForm(request.POST)
         if f.is_valid():
+            f.cleaned_data['user'] = request.user
+            f.instance.user = request.user
             f.save()
             return HttpResponseRedirect('/')
         return render_to_response('allowance/transaction_add.html', RequestContext(request, { 'form': f }))

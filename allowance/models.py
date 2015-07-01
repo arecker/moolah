@@ -43,9 +43,13 @@ def get_year():
     return timezone.now().year
 
 
+def _get_latest_period():
+    return Period.objects.latest()
+
+
 class PeriodManager(models.Manager):
     def latest(self):
-        return super(models.Manager, self).order_by('-year', '-month').first()
+        return super(models.Manager, self).order_by('-year', '-month').filter(closed=False).first()
 
 
 class Period(models.Model):
@@ -96,7 +100,7 @@ class TransactionManager(models.Manager):
 
     
 class Transaction(models.Model):
-    period = models.ForeignKey(Period)
+    period = models.ForeignKey(Period, default=_get_latest_period)
     user = models.ForeignKey(User)
     negative = models.BooleanField(verbose_name='Sign', choices=negative_choices, default=True)
     amount = models.DecimalField(max_digits=6, decimal_places=2)

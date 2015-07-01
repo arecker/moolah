@@ -6,8 +6,6 @@ class TransactionForm(ModelForm):
     class Meta:
         model = Transaction
         fields = [
-            'period',
-            'user',
             'negative',
             'amount',
             'reason',
