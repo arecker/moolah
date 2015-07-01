@@ -44,7 +44,7 @@ def get_year():
 
 
 def _get_latest_period():
-    return Period.objects.latest()
+    return Period.objects.latest().pk
 
 
 class PeriodManager(models.Manager):
