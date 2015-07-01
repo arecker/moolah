@@ -27,6 +27,7 @@ def transactions(request):
         if f.is_valid():
             f.save()
             return HttpResponseRedirect('/')
+        return render_to_response('allowance/transaction_add.html', RequestContext(request, { 'form': f }))
 
 
 @login_required
