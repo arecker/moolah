@@ -10,11 +10,11 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ user }}<span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">Profile</a></li>
-            <li><a href="/logout/?next=/">Logout</a></li>
+            <li><a href="{% url 'django.contrib.auth.views.logout' %}?next=/">Logout</a></li>
           </ul>
         </li>
         {% else %}
-        <li><a href="/login/">Login</a></li>
+        <li><a href="{% url 'django.contrib.auth.views.login' %}">Login</a></li>
         {% endif %}
       </ul>
     </div>
