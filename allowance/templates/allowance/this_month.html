@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% if period %}
 <div class="container-fluid">
   <div class="page-header">
     <h1>{{ period }}</h1>
@@ -38,5 +39,11 @@
     </div>
     {% endfor %}
   </div>
-</div>	
+</div>
+{% else %}
+<div class="well">
+  <h1>No open allowance period found</h1>
+  <p>Try again later</p>
+</div>
+{% endif %}
 {% endblock %}
