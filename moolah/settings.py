@@ -16,6 +16,7 @@ INSTALLED_APPS = (
 
     # 3rd party
     'django_extensions',
+    'django_forms_bootstrap',
     
     # Apps
     'allowance',

@@ -7,14 +7,8 @@
     <div class="jumbotron">
       <form method="post" action="{% url 'django.contrib.auth.views.login' %}">
         {% csrf_token %}
-        <div class="form-group">
-          <label for="{{ form.user.id_for_label }}">Username</label>
-          <input name="username" id="{{ form.user.id_for_label }}" class="form-control" type="text" />
-        </div>
-        <div class="form-group">
-          <label for="{{ form.password.id_for_label }}">Password</label>
-          <input name="password" id="{{ form.password.id_for_label }}" class="form-control" type="password" />
-        </div>
+        {% load bootstrap_tags %}
+        {{ form | as_bootstrap }}
         <input type="submit" class="btn btn-success" value="login" />
         <input type="hidden" name="next" value="{{ next }}" />
       </form>
