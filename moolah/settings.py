@@ -72,6 +72,8 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'prod_static')
-# STATICFILES_DIRS = (
-#     os.path.join(BASE_DIR, 'static'),
-# )
+
+try:
+    from prod_settings import *
+except ImportError:
+    pass
