@@ -49,7 +49,8 @@ def _get_latest_period():
 
 class PeriodManager(models.Manager):
     def latest(self):
-        return super(models.Manager, self).order_by('-year', '-month').filter(closed=False).first()
+        return super(models.Manager, self).order_by('-year', '-month') \
+                                          .filter(closed=False).first()
 
 
 class Period(models.Model):
@@ -63,11 +64,9 @@ class Period(models.Model):
     class Meta:
         ordering = ['-year', '-month']
         unique_together = ('month', 'year')
-        
-    
+
     def __unicode__(self):
         return '{0}/{1}'.format(self.month, self.year)
-
 
     @property
     def name(self):
@@ -77,32 +76,42 @@ class Period(models.Model):
 class TransactionManager(models.Manager):
     def latest_set_for_user(self, user):
         period = Period.objects.latest()
-        return super(models.Manager, self).filter(period=period).filter(user=user)
-
+        return super(models.Manager, self) \
+            .filter(period=period).filter(user=user)
 
     def period(self, user, period=None):
         if not period:
             period = Period.objects.latest()
-        return super(models.Manager, self).filter(period=period).filter(user=user)
-
+        return super(models.Manager, self) \
+            .filter(period=period).filter(user=user)
 
     def balance(self, user, period=None):
         ts = self.period(user, period=period)
         try:
-            pos = Decimal(ts.filter(negative=False).aggregate(models.Sum('amount'))['amount__sum'])
+            pos = Decimal(
+                ts.filter(negative=False)
+                .aggregate(models.Sum('amount'))['amount__sum']
+            )
         except:
             pos = Decimal(0)
         try:
-            neg = Decimal(ts.filter(negative=True).aggregate(models.Sum('amount'))['amount__sum'])
+            neg = Decimal(
+                ts.filter(negative=True)
+                .aggregate(models.Sum('amount'))['amount__sum']
+            )
         except:
             neg = Decimal(0)
         return pos - neg
 
-    
+
 class Transaction(models.Model):
     period = models.ForeignKey(Period, default=_get_latest_period)
     user = models.ForeignKey(User)
-    negative = models.BooleanField(verbose_name='Sign', choices=negative_choices, default=True)
+    negative = models.BooleanField(
+        verbose_name='Sign',
+        choices=negative_choices,
+        default=True
+    )
     amount = models.DecimalField(max_digits=6, decimal_places=2)
     reason = models.IntegerField(choices=reason_choices, default=0)
     description = models.CharField(max_length=120, null=True, blank=True)
@@ -110,16 +119,17 @@ class Transaction(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     objects = TransactionManager()
-    
+
     class Meta:
         ordering = ['timestamp']
 
-
     def save(self, *args, **kwargs):
         if self.period.closed:
-            raise Exception('Attempted to add transaction to closed period {0}'.format(self.period.id))
+            raise Exception(
+                'Attempted to add transaction to closed period {0}'
+                .format(self.period.id)
+            )
         super(Transaction, self).save(*args, **kwargs)
-        
 
     def __unicode__(self):
         if self.negative:

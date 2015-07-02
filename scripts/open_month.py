@@ -18,7 +18,10 @@ def run():
     next_period = Period.objects.latest()
     for user in User.objects.all():
         try:
-            balance = Transaction.objects.balance(user=user, period=current_period)
+            balance = Transaction.objects.balance(
+                user=user,
+                period=current_period
+            )
         except:
             balance = Decimal(0)
         adjustment = Decimal(settings.ALLOWANCE_LIMIT) + balance
@@ -26,8 +29,10 @@ def run():
             period=next_period,
             user=user,
             reason=0,
-            description='{0} {1} monthly allowance'.format(timezone.now().strftime("%B"), next_period.year),
+            description='{0} {1} monthly allowance'.format(
+                timezone.now().strftime("%B"),
+                next_period.year
+            ),
             negative='-' in str(adjustment),
             amount=abs(adjustment)
         ).save()
-        
