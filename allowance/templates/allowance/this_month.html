@@ -5,19 +5,28 @@
 <div class="container-fluid">
   <div class="page-header">
     <h1 class="lead">{{ period }}</h1>
-  </div>
-  {% if not period.closed %}
-  <div class="well">
+    {% if not period.closed %}
     <a class="btn btn-primary" href="/transactions/add/">Add Transaction</a>
+    {% endif %}
   </div>
-  {% endif %}
 </div>
 <div class="container-fluid">
   <div class="row">
     {% for set in sets %}
     <div class="col-md-6">
-      <div class="page-header">
-        <h1 class="lead">{{ set.user }}</h1>
+      <div class="media">
+        <div class="media-left">
+          {% if set.user.userprofile.buddy_icon %}
+          <img class="media-object" alt="{{ set.user }}-icon" height="50px" src="{{ set.user.userprofile.buddy_icon_url }}"/>
+          {% endif %}
+        </div>
+        <div class="media-body">
+          {% if set.user.get_full_name %}
+          <h4 class="media-heading">{{ set.user.get_full_name }}</h4>
+          {% else %}
+          <h4 class="media-heading">{{ set.user.get_username }}</h4>
+          {% endif %}
+        </div>
       </div>
       <table class="table">
         <tr>

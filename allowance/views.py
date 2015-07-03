@@ -15,7 +15,7 @@ def display_period(id=None):
     sets = []
     for user in User.objects.all():
         sets.append({
-            'user': user.get_full_name() or user.get_username(),
+            'user': user,
             'balance': Transaction.objects.balance(user=user),
             'transactions': Transaction.objects.latest_set_for_user(user)
         })

@@ -11,6 +11,7 @@ def profile(request):
     if request.method == 'POST':
         form = UserProfileForm(
             request.POST,
+            request.FILES,
             instance=UserProfile.objects.get(user=request.user)
         )
         if form.is_valid():

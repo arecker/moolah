@@ -1,5 +1,7 @@
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.conf.urls.static import static
+from django.conf import settings
 from allowance.views import (
     this_month,
     transactions,
@@ -22,4 +24,4 @@ urlpatterns = [
     url(r'^periods/(?P<id>\d+)/$', periods_detail),
     url(r'^profile/$', profile),
     url(r'^profile/success/$', profile_success)
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
