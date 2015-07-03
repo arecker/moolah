@@ -69,8 +69,11 @@ class Period(models.Model):
         return '{0}/{1}'.format(self.month, self.year)
 
     @property
-    def name(self):
-        return self.__unicode__()
+    def pretty_name(self):
+        return '{0} {1}'.format(
+            dict(month_choices)[self.month],
+            self.year
+        )
 
 
 class TransactionManager(models.Manager):

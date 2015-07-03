@@ -4,7 +4,7 @@
 {% if period %}
 <div class="container-fluid">
   <div class="page-header">
-    <h1 class="lead">{{ period }}</h1>
+    <h1 class="lead">{{ period.pretty_name }}</h1>
     {% if not period.closed %}
     <a class="btn btn-primary" href="/transactions/add/">Add Transaction</a>
     {% endif %}

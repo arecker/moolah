@@ -10,7 +10,7 @@
   <div class="col-md-6">
     <ul class="list-group">
       {% for period in periods %}
-      <li class="list-group-item"><a href="/periods/{{ period.pk }}/">{{ period }}</a></li>
+      <li class="list-group-item"><a href="/periods/{{ period.pk }}/">{{ period.pretty_name }}</a></li>
       {% endfor %}
     </ul>
   </div>
