@@ -17,8 +17,9 @@ INSTALLED_APPS = (
     # 3rd party
     'django_extensions',
     'django_forms_bootstrap',
-    
+
     # Apps
+    'core',
     'allowance',
 )
 
@@ -46,6 +47,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'moolah.processors.user_theme'
             ],
         },
     },
@@ -67,6 +69,7 @@ USE_L10N = True
 USE_TZ = True
 
 ALLOWANCE_LIMIT = Decimal(100)
+DEFAULT_THEME = 'http://bootswatch.com/united/bootstrap.min.css'
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
