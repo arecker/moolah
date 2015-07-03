@@ -37,7 +37,7 @@
         </tr>
         {% for item in set.transactions %}
         <tr>
-          <td>{{ item.timestamp }}</td>
+          <td>{{ item.timestamp | date }}</td>
           <td>{% if item.negative %}-{% endif %} ${{ item.amount }}</td>
           <td>{{ item.get_reason_display }}</td>
           <td>{{ item.description }}</td>
