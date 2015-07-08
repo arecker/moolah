@@ -22,6 +22,7 @@ INSTALLED_APPS = (
 
     # Apps
     'authenticating',
+    'spending'
 )
 
 MIDDLEWARE_CLASSES = (
