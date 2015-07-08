@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Moolah</title>
+    {% load staticfiles %}
+    <link href="{{ CSS_THEME_URL }}" rel="stylesheet"/>
+    <link href="{% static 'css/site.css' %}" rel="stylesheet"/>
+  </head>
+  <body>
+    {% include "navbar.html" %}
+    {% block content %}
+    {% endblock %}
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  </body>
+</html>

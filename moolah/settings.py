@@ -15,8 +15,13 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     # 3rd party
+    'annoying',
+    'django_extensions',
+    'django_nose',
+    'django_forms_bootstrap',
 
     # Apps
+    'authenticating',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -59,18 +64,19 @@ DATABASES = {
 }
 
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Chicago'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-ALLOWANCE_LIMIT = Decimal(100)
-DEFAULT_THEME = 'http://bootswatch.com/united/bootstrap.min.css'
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+DEFAULT_THEME = '//bootswatch.com/bower_components/bootstrap/dist/css/bootstrap.min.css'
 
-LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/'
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'prod_static')
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 MEDIA_URL = '/media/'
 
