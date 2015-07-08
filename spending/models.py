@@ -11,7 +11,12 @@ def _get_year():
     return timezone.now().year
 
 
+class MonthlyPeriodManager(models.Manager):
+    pass
+
+
 class MonthlyPeriod(models.Model):
+    objects = MonthlyPeriodManager()
     month_choices = (
         (1, 'January'),
         (2, 'February'),
@@ -32,7 +37,27 @@ class MonthlyPeriod(models.Model):
     year = models.BigIntegerField(default=_get_year)
     timestamp = models.DateTimeField(auto_now_add=True)
     closed = models.BooleanField(default=False)
+    date = models.DateTimeField(blank=True, null=True, editable=False)
+
+    @property
+    def display_name(self):
+        return '{0} {1}'.format(
+            dict(self.month_choices)[self.month],
+            self.year
+        )
+
+    def __unicode__(self):
+        return self.display_name
+
+    def save(self, *args, **kwargs):
+        self.date = timezone.datetime(
+            year=self.year,
+            month=self.month,
+            day=1
+        )
+        super(MonthlyPeriod, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ['-year', '-month']
+        get_latest_by = 'date'
         unique_together = ('month', 'year')
