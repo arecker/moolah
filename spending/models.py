@@ -29,7 +29,7 @@ class TransactionBase(models.Model):
     objects = TransactionBaseQueryset.as_manager()
     timestamp = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User)
-    reason = models.IntegerField(choices=reason_choices, defaul=1)
+    reason = models.IntegerField(choices=reason_choices, default=1)
     negative = models.BooleanField(default=False)
     amount = models.DecimalField(max_digits=6, decimal_places=2)
     description = models.CharField(max_length=120, null=True, blank=True)
