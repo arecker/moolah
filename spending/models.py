@@ -4,9 +4,32 @@ from django.contrib.auth.models import User
 import uuid
 
 
+class TransactionBaseQueryset(models.query.QuerySet):
+    def balance(self):
+        positive = (self.filter(
+            negative=False).aggregate(
+                models.Sum('amount'))['amount__sum'] or 0)
+        negative = -1 * (self.filter(
+            negative=True).aggregate(
+                models.Sum('amount'))['amount__sum'] or 0)
+        return positive + negative
+
+
 class TransactionBase(models.Model):
+    reason_choices = [
+        (0, 'Allowance'),
+        (1, 'Purchase'),
+        (2, 'Refund'),
+        (3, 'Penalty'),
+        (4, 'Reward'),
+        (5, 'Adjustment'),
+        (6, 'Error'),
+        (7, 'Other')
+    ]
+    objects = TransactionBaseQueryset.as_manager()
     timestamp = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User)
+    reason = models.IntegerField(choices=reason_choices, defaul=1)
     negative = models.BooleanField(default=False)
     amount = models.DecimalField(max_digits=6, decimal_places=2)
     description = models.CharField(max_length=120, null=True, blank=True)
