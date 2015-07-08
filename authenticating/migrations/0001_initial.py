@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, serialize=False, editable=False, primary_key=True)),
                 ('name', models.CharField(max_length=80)),
-                ('url', models.URLField()),
+                ('url', models.URLField(unique=True)),
             ],
             options={
                 'ordering': ['name'],
@@ -35,6 +35,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='account',
             name='theme',
-            field=models.ForeignKey(to='authenticating.Theme'),
+            field=models.ForeignKey(blank=True, to='authenticating.Theme', null=True),
         ),
     ]

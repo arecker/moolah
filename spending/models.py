@@ -11,7 +11,7 @@ def _get_year():
     return timezone.now().year
 
 
-class Period(models.Model):
+class MonthPeriod(models.Model):
     month_choices = (
         (1, 'January'),
         (2, 'February'),
