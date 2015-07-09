@@ -1,5 +1,9 @@
 from django.contrib import admin
-from .models import MonthlyPeriod, MonthlyTransaction
+from .models import (
+    MonthlyPeriod,
+    MonthlyTransaction,
+    MonthlyBudget
+)
 
 
 class MonthlyTransactionInline(admin.StackedInline):
@@ -12,3 +16,4 @@ class MonthlyPeriodAdmin(admin.ModelAdmin):
 
 
 admin.site.register(MonthlyPeriod, MonthlyPeriodAdmin)
+admin.site.register(MonthlyBudget)

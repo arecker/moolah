@@ -15,6 +15,20 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
+            name='MonthlyBudget',
+            fields=[
+                ('id', models.UUIDField(default=uuid.uuid4, serialize=False, editable=False, primary_key=True)),
+                ('timestamp', models.DateTimeField(auto_now_add=True)),
+                ('name', models.CharField(max_length=80)),
+                ('description', models.TextField(null=True, blank=True)),
+                ('allowance', models.DecimalField(max_digits=6, decimal_places=2)),
+                ('shared', models.BooleanField(default=False)),
+            ],
+            options={
+                'abstract': False,
+            },
+        ),
+        migrations.CreateModel(
             name='MonthlyPeriod',
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, serialize=False, editable=False, primary_key=True)),
@@ -34,10 +48,12 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('timestamp', models.DateTimeField(auto_now_add=True)),
+                ('reason', models.IntegerField(default=1, choices=[(0, b'Allowance'), (1, b'Purchase'), (2, b'Refund'), (3, b'Penalty'), (4, b'Reward'), (5, b'Adjustment'), (6, b'Error'), (7, b'Other')])),
                 ('negative', models.BooleanField(default=False)),
                 ('amount', models.DecimalField(max_digits=6, decimal_places=2)),
                 ('description', models.CharField(max_length=120, null=True, blank=True)),
                 ('memo', models.TextField(null=True, blank=True)),
+                ('budget', models.ForeignKey(to='spending.MonthlyBudget')),
                 ('period', models.ForeignKey(to='spending.MonthlyPeriod')),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],

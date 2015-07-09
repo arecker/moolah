@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 import uuid
 
 
@@ -56,12 +57,25 @@ class PeriodBase(models.Model):
         abstract = True
 
 
-class MonthlyPeriodManager(models.Manager):
-    pass
+class BudgetBase(models.Model):
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    name = models.CharField(max_length=80)
+    description = models.TextField(blank=True, null=True)
+    allowance = models.DecimalField(max_digits=6, decimal_places=2)
+    shared = models.BooleanField(default=False)
+
+    def get_absolute_url(self):
+        return reverse('budget_detail', args=[str(self.id)])
+
+    def __unicode__(self):
+        return '{0} ({1})'.format(self.name, str(self.allowance))
+
+    class Meta:
+        abstract = True
 
 
 class MonthlyPeriod(PeriodBase):
-    objects = MonthlyPeriodManager()
     month_choices = (
         (1, 'January'),
         (2, 'February'),
@@ -105,5 +119,19 @@ class MonthlyPeriod(PeriodBase):
         unique_together = ('month', 'year')
 
 
+class MonthlyBudget(BudgetBase):
+    pass
+
+
+class MonthlyTransactionQuerySet(TransactionBaseQueryset):
+    def latest_period(self, budget=None):
+        qs = self.filter(period=MonthlyPeriod.objects.latest())
+        if not budget:
+            return qs
+        return qs.filter(budget=budget)
+
+
 class MonthlyTransaction(TransactionBase):
+    objects = MonthlyTransactionQuerySet.as_manager()
     period = models.ForeignKey(MonthlyPeriod)
+    budget = models.ForeignKey(MonthlyBudget)

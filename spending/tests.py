@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
-from .models import MonthlyPeriod, MonthlyTransaction
+from .models import MonthlyPeriod, MonthlyTransaction, MonthlyBudget
 from decimal import Decimal
 
 
@@ -10,6 +10,10 @@ class TransactionManagerTests(TestCase):
         self.period.save()
         self.user = User.objects.create_user('hal', 'testpass')
         self.user.save()
+        self.budget = MonthlyBudget()
+        self.budget.name = 'TestBudget'
+        self.budget.allowance = Decimal(100)
+        self.budget.save()
 
     def test_sanity_balance(self):
         """
@@ -21,6 +25,7 @@ class TransactionManagerTests(TestCase):
         t1.period = self.period
         t1.user = self.user
         t1.amount = Decimal(10)
+        t1.budget = self.budget
         t1.save()
 
         actual = MonthlyTransaction.objects.balance()
@@ -37,6 +42,7 @@ class TransactionManagerTests(TestCase):
         t1.period = self.period
         t1.user = self.user
         t1.amount = Decimal(10)
+        t1.budget = self.budget
         t1.save()
 
         actual = MonthlyTransaction.objects.balance()
@@ -54,6 +60,7 @@ class TransactionManagerTests(TestCase):
         t1.period = self.period
         t1.user = self.user
         t1.amount = Decimal(10)
+        t1.budget = self.budget
         t1.save()
 
         t2 = MonthlyTransaction()
@@ -61,6 +68,7 @@ class TransactionManagerTests(TestCase):
         t2.period = self.period
         t2.user = self.user
         t2.amount = Decimal(5)
+        t2.budget = self.budget
         t2.save()
 
         actual = MonthlyTransaction.objects.balance()
@@ -76,6 +84,7 @@ class TransactionManagerTests(TestCase):
         t1.period = self.period
         t1.user = self.user
         t1.amount = Decimal(10)
+        t1.budget = self.budget
         t1.save()
 
         t2 = MonthlyTransaction()
@@ -83,6 +92,7 @@ class TransactionManagerTests(TestCase):
         t2.period = self.period
         t2.user = self.user
         t2.amount = Decimal(5)
+        t2.budget = self.budget
         t2.save()
 
         actual = MonthlyTransaction.objects.filter(
@@ -90,3 +100,34 @@ class TransactionManagerTests(TestCase):
         ).balance()
         expected = Decimal(-10)
         self.assertEqual(actual, expected)
+
+
+class MonthlyTransactionManagerTests(TestCase):
+    def setUp(self):
+        self.period = MonthlyPeriod()
+        self.period.save()
+        self.user = User.objects.create_user('hal', 'testpass')
+        self.user.save()
+        self.budget = MonthlyBudget()
+        self.budget.name = 'Test Budget'
+        self.budget.allowance = Decimal(100)
+        self.budget.save()
+
+    def test_latest_period(self):
+        """
+        should fetch all transactions for 1 budget for the latest period
+        """
+        t1 = MonthlyTransaction()
+        t1.description = 'Test'
+        t1.amount = Decimal(10)
+        t1.negative = True
+        t1.budget = self.budget
+        t1.period = self.period
+        t1.user = self.user
+        t1.save()
+
+        transactions = MonthlyTransaction.objects.latest_period(
+            budget=self.budget)
+        self.assertEqual(len(transactions), 1)
+        self.assertEqual(transactions.first().amount, Decimal(10))
+        self.assertEqual(transactions.balance(), Decimal(-10))
