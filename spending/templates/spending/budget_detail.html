@@ -5,20 +5,8 @@
     <h1 class="lead">{{ budget.name }} <small>${{ budget.allowance }}</small></h1>
   </div>
   <div class="row">
-    {% if budget.shared %}
-    <div class="col-md-6">
-      {% include "spending/transaction_table.html" with transactions=transactions %}
-    </div>
-    {% else %}
-    {% regroup transactions by user as users %}
-    {% for user in users %}
-    <div class="col-md-6">
-      <div class="alert">Balance: {{ user.list.balance }}</div>
-      {% include "spending/transaction_table.html" with transactions=user.list %}
-    </div>
-    {% endfor %}
-    {% endif %}
+    {% block tables %}
+    {% endblock %}
   </div>
 </div>
-
 {% endblock %}
