@@ -1,21 +1,6 @@
 {% extends "spending/budget_detail.html" %} {% block tables %}
 <div class="col-md-6">
-  <table class="table">
-    <tr>
-      <td>Description</td>
-      <td>Amount</td>
-      <td>Date</td>
-      <td>Reason</td>
-    </tr>
-    {% for item in transaction %}
-    <tr>
-      <td><a href="{{ item.get_absolute_url }}">{{ item.description
-      }}</a></td>
-      <td>{% if item.negative %}- {% endif %}${{ item.amount }}</td>
-      <td>{{ item.timestamp | date }}</td>
-      <td>{{ item.reason }}</td>
-    </tr>
-    {% endfor %}
-  </table>
+  <div class="alert"><strong>Balance: {{ balance }}</strong></div>
+  {% include "spending/transaction_table.html" with transactions=transactions balance=balance %}
 </div>
 {% endblock %}

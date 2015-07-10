@@ -1,0 +1,19 @@
+<table class="table">
+  <tr>
+    <td><strong>Balance: {{ balance }}</strong></td>
+  </tr>
+  <tr>
+    <td>Description</td>
+    <td>Amount</td>
+    <td>Date</td>
+    <td>Reason</td>
+  </tr>
+  {% for item in transactions %}
+  <tr>
+    <td><a href="{{ item.get_absolute_url }}">{{ item.description }}</a></td>
+    <td>{% if item.negative %}- {% endif %}${{ item.amount }}</td>
+    <td>{{ item.timestamp | date }}</td>
+    <td>{{ item.get_reason_display }}</td>
+  </tr>
+  {% endfor %}
+</table>

@@ -6,9 +6,11 @@
       </div>
       {% if user.is_authenticated %}
       <ul class="nav navbar-nav navbar">
+        {% for budget in BUDGETS %}
         <li>
-          <a href="#">Link</a>
+          <a href="{{ budget.get_absolute_url }}">{{ budget.name }}</a>
         </li>
+        {% endfor %}
       </ul>
       {% else %}
       {% endif %}
