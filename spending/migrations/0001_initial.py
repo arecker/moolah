@@ -53,7 +53,7 @@ class Migration(migrations.Migration):
                 ('memo', models.TextField(null=True, blank=True)),
                 ('budget', models.ForeignKey(to='spending.Budget')),
                 ('period', models.ForeignKey(to='spending.Period')),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True)),
             ],
         ),
     ]

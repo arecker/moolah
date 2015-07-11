@@ -1,6 +1,5 @@
 {% extends "spending/budget_detail.html" %} {% block tables %}
 <div class="col-md-6">
-  <div class="alert"><strong>Balance: {{ balance }}</strong></div>
   {% include "spending/transaction_table.html" with transactions=transactions balance=balance %}
 </div>
 {% endblock %}

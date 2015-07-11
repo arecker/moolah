@@ -7,6 +7,11 @@ import annoying.fields
 import uuid
 
 
+def load_themes(*args):
+    from scripts.load_bootswatch_themes import run
+    run()
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -37,4 +42,6 @@ class Migration(migrations.Migration):
             name='theme',
             field=models.ForeignKey(blank=True, to='authenticating.Theme', null=True),
         ),
+
+        migrations.RunPython(load_themes)
     ]

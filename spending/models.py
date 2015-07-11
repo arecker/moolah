@@ -54,7 +54,14 @@ class Period(models.Model):
         super(Period, self).save(*args, **kwargs)
 
     def __unicode__(self):
-        return '{0} to {1}'.format(self.start, self.end)
+        return self.display
+
+    @property
+    def display(self):
+        return '{0} to {1}'.format(
+            self.start.strftime("%m/%d"),
+            self.end.strftime("%m/%d")
+        )
 
     class Meta:
         ordering = ['-start', ]
@@ -71,11 +78,14 @@ class TransactionQueryset(models.query.QuerySet):
                 models.Sum('amount'))['amount__sum'] or 0)
         return positive + negative
 
-    def latest_period(self, budget=None):
-        qs = self.filter(period=Period.objects.latest())
-        if not budget:
-            return qs
-        return qs.filter(budget=budget)
+    def latest_period(self, budget):
+        return self.filter(
+            budget=budget
+        ).filter(
+            period=Period.objects.filter(
+                reoccuring=budget.reoccuring
+            ).latest()
+        )
 
 
 class Transaction(models.Model):
@@ -99,3 +109,13 @@ class Transaction(models.Model):
     memo = models.TextField(null=True, blank=True)
     period = models.ForeignKey(Period)
     budget = models.ForeignKey(Budget)
+
+    def __unicode__(self):
+        return self.display
+
+    @property
+    def display(self):
+        sign = ''
+        if self.negative:
+            sign = '-'
+        return '{0} ({1}{2})'.format(self.description, sign, self.amount)

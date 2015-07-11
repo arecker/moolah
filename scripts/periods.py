@@ -7,8 +7,6 @@ def run(*args):
     re opens a new period for all
     budgets and calculates allowance
     """
-    import ipdb
-    ipdb.set_trace()
     REOCCUR = parse_args(args)
     if REOCCUR not in [0, 1]:
         print('No reoccurance specified')
@@ -51,12 +49,13 @@ def parse_args(args):
 
 
 def transact_allowance(balance, period, budget, user=None):
+    total = budget.allowance + balance
     opening = Transaction()
-    opening.reason = 1
+    opening.reason = 0
     opening.period = period
     opening.budget = budget
-    opening.negative = balance < 0
-    opening.amount = abs(balance)
-    opening.description = 'Allowance for {0}'.format(period)
+    opening.negative = total < 0
+    opening.amount = abs(total)
+    opening.description = 'Allowance for {0}'.format(period.display)
     opening.user = user
     opening.save()
