@@ -2,8 +2,8 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import django.utils.timezone
 from django.conf import settings
-import spending.models
 import uuid
 
 
@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='MonthlyBudget',
+            name='Budget',
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, serialize=False, editable=False, primary_key=True)),
                 ('timestamp', models.DateTimeField(auto_now_add=True)),
@@ -23,28 +23,26 @@ class Migration(migrations.Migration):
                 ('description', models.TextField(null=True, blank=True)),
                 ('allowance', models.DecimalField(max_digits=6, decimal_places=2)),
                 ('shared', models.BooleanField(default=False)),
+                ('reoccuring', models.IntegerField(choices=[(0, b'Weekly'), (1, b'Monthly')])),
             ],
-            options={
-                'abstract': False,
-            },
         ),
         migrations.CreateModel(
-            name='MonthlyPeriod',
+            name='Period',
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, serialize=False, editable=False, primary_key=True)),
                 ('timestamp', models.DateTimeField(auto_now_add=True)),
                 ('closed', models.BooleanField(default=False)),
-                ('month', models.IntegerField(default=spending.models._get_month, choices=[(1, b'January'), (2, b'February'), (3, b'March'), (4, b'April'), (5, b'May'), (6, b'June'), (7, b'July'), (8, b'August'), (9, b'September'), (10, b'October'), (11, b'November'), (12, b'December')])),
-                ('year', models.BigIntegerField(default=spending.models._get_year)),
-                ('date', models.DateTimeField(null=True, editable=False, blank=True)),
+                ('start', models.DateField(default=django.utils.timezone.now)),
+                ('end', models.DateField(null=True, blank=True)),
+                ('reoccuring', models.IntegerField(choices=[(0, b'Weekly'), (1, b'Monthly')])),
             ],
             options={
-                'ordering': ['-year', '-month'],
-                'get_latest_by': 'date',
+                'ordering': ['-start'],
+                'get_latest_by': 'start',
             },
         ),
         migrations.CreateModel(
-            name='MonthlyTransaction',
+            name='Transaction',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('timestamp', models.DateTimeField(auto_now_add=True)),
@@ -53,16 +51,9 @@ class Migration(migrations.Migration):
                 ('amount', models.DecimalField(max_digits=6, decimal_places=2)),
                 ('description', models.CharField(max_length=120, null=True, blank=True)),
                 ('memo', models.TextField(null=True, blank=True)),
-                ('budget', models.ForeignKey(to='spending.MonthlyBudget')),
-                ('period', models.ForeignKey(to='spending.MonthlyPeriod')),
+                ('budget', models.ForeignKey(to='spending.Budget')),
+                ('period', models.ForeignKey(to='spending.Period')),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
-            options={
-                'abstract': False,
-            },
-        ),
-        migrations.AlterUniqueTogether(
-            name='monthlyperiod',
-            unique_together=set([('month', 'year')]),
         ),
     ]

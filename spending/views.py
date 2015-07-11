@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.template import RequestContext
 from django.contrib.auth.models import User
-from .models import MonthlyBudget, MonthlyTransaction
+from .models import Budget, Transaction
 from .forms import MonthlyTransactionForm
 from decimal import Decimal
 
@@ -19,13 +19,12 @@ def index(request):
 @login_required
 def budget_detail(request, pk=None):
     try:
-        budget = MonthlyBudget.objects.get(pk=pk)
+        budget = Budget.objects.get(pk=pk)
         if budget.shared:
             return _return_shared_budget_detail(request, budget)
         else:
             return _return_individual_budget_detail(request, budget)
-    except (MonthlyBudget.DoesNotExist):
-        # todo: log it
+    except (Budget.DoesNotExist):
         raise Http404
 
 
@@ -33,7 +32,7 @@ def _return_individual_budget_detail(request, budget):
     users = User.objects.all()
     sets = []
     for u in users:
-        transactions = MonthlyTransaction.objects.latest_period(
+        transactions = Transaction.objects.latest_period(
             budget=budget
         ).filter(user=u)
         sets.append({
@@ -52,7 +51,7 @@ def _return_individual_budget_detail(request, budget):
 
 
 def _return_shared_budget_detail(request, budget):
-    transactions = MonthlyTransaction.objects.latest_period(budget=budget)
+    transactions = Transaction.objects.latest_period(budget=budget)
     return render_to_response(
         'spending/shared_budget_detail.html',
         RequestContext(request, {
@@ -81,7 +80,7 @@ def transaction_add(request, pk):
                 pk
             )
             return HttpResponseRedirect(
-                MonthlyBudget.objects.get(
+                Budget.objects.get(
                     pk=pk).get_absolute_url()
             )
     else:
@@ -90,6 +89,6 @@ def transaction_add(request, pk):
         'spending/transaction_add.html',
         RequestContext(request, {
             'form': form,
-            'budget': MonthlyBudget.objects.get(pk=pk)
+            'budget': Budget.objects.get(pk=pk)
         })
     )

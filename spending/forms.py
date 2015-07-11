@@ -1,8 +1,8 @@
 from django import forms
 from .models import (
-    MonthlyTransaction,
-    MonthlyBudget,
-    MonthlyPeriod
+    Transaction,
+    Budget,
+    Period
 )
 
 
@@ -11,14 +11,15 @@ class MonthlyTransactionForm(forms.ModelForm):
         instance = super(
             MonthlyTransactionForm, self).save(commit=False)
         instance.user = user
-        instance.budget = MonthlyBudget.objects.get(pk=budget_pk)
+        instance.budget = Budget.objects.get(pk=budget_pk)
         instance.reason = 1
         instance.negative = True
-        instance.period = MonthlyPeriod.objects.latest()
+        instance.period = Period.objects.filter(
+            reoccuring=instance.budget.reoccuring).latest()
         if commit:
             instance.save()
         return instance
 
     class Meta:
-        model = MonthlyTransaction
+        model = Transaction
         exclude = ['user', 'budget', 'period', 'reason', 'negative']

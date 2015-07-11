@@ -1,6 +1,5 @@
 from django.conf import settings
-from spending.models import MonthlyBudget
-import itertools
+from spending.models import Budget
 
 
 def user_theme(request):
@@ -19,5 +18,5 @@ def user_theme(request):
 
 def nav_bar(request):
     return {
-        'BUDGETS': itertools.chain(MonthlyBudget.objects.all())
+        'BUDGETS': Budget.objects.all()
     }
