@@ -8,8 +8,6 @@ def run(*args):
     re opens a new period for all
     budgets and calculates allowance
     """
-    import ipdb
-    ipdb.set_trace()
     REOCCUR = parse_args(args)
     if REOCCUR not in [0, 1]:
         print('No reoccurance specified')
