@@ -13,6 +13,7 @@ class TransactionInline(admin.StackedInline):
 
 class PeriodAdmin(admin.ModelAdmin):
     inlines = (TransactionInline, )
+    list_filter = ('reoccuring', )
 
 
 admin.site.register(Period, PeriodAdmin)

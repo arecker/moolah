@@ -1,5 +1,6 @@
 from spending.models import Budget, Transaction, Period
 from django.contrib.auth.models import User
+from decimal import Decimal
 
 
 def run(*args):
@@ -7,15 +8,20 @@ def run(*args):
     re opens a new period for all
     budgets and calculates allowance
     """
+    import ipdb
+    ipdb.set_trace()
     REOCCUR = parse_args(args)
     if REOCCUR not in [0, 1]:
         print('No reoccurance specified')
         exit(1)
 
     # Close old period
-    old_period = Period.objects.filter(reoccuring=REOCCUR).latest()
-    old_period.closed = True
-    old_period.save()
+    try:
+        old_period = Period.objects.filter(reoccuring=REOCCUR).latest()
+        old_period.closed = True
+        old_period.save()
+    except Period.DoesNotExist:
+        old_period = None
 
     # Open new period
     new_period = Period()
@@ -24,18 +30,24 @@ def run(*args):
 
     for b in Budget.objects.filter(reoccuring=REOCCUR):
         if b.shared:
-            balance = Transaction.objects.filter(
-                period=old_period,
-                budget=b
-            ).balance()
+            if old_period:
+                balance = Transaction.objects.filter(
+                    period=old_period,
+                    budget=b
+                ).balance()
+            else:
+                balance = Decimal(0)
             transact_allowance(balance, new_period, b)
         else:
             for u in User.objects.all():
-                balance = Transaction.objects.filter(
-                    period=old_period,
-                    budget=b,
-                    user=u
-                ).balance()
+                if old_period:
+                    balance = Transaction.objects.filter(
+                        period=old_period,
+                        budget=b,
+                        user=u
+                    ).balance()
+                else:
+                    balance = Decimal(0)
                 transact_allowance(balance, new_period, b, user=u)
 
 
