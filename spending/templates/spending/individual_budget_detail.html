@@ -6,6 +6,9 @@
     <div class="media-left">
       {% if set.user.account.avatar %}
       <img class="media-object" alt="{{ set.user }}-icon" height="50px" src="{{ set.user.account.avatar.url }}"/>
+      {% else %}
+      {% load staticfiles %}
+      <img class="media-object" alt="{{ set.user }}-icon" height="50px" src="{% static 'icon.png' %}"/>
       {% endif %}
     </div>
     <div class="media-body">
