@@ -10,17 +10,19 @@ from .models import Account
 
 @login_required
 def profile(request):
+    instance = Account.objects.get(user=request.user)
     if request.method == 'POST':
         form = forms.AccountForm(
             request.POST,
             request.FILES,
+            instance=instance
         )
         if form.is_valid():
-            form.save(request.user)
+            form.save()
             return HttpResponseRedirect('/')
     else:
         form = forms.AccountForm(
-            instance=Account.objects.get(user=request.user)
+            instance=instance
         )
     return render_to_response(
         'registration/profile.html',
