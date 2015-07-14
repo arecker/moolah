@@ -2,36 +2,44 @@
   <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
       <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapse" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
         <a class="navbar-brand" href="/">moolah</a>
       </div>
-      {% if user.is_authenticated %}
-      <ul class="nav navbar-nav navbar">
-        {% for budget in BUDGETS %}
-        <li>
-          <a href="{{ budget.get_absolute_url }}">{{ budget.name }}</a>
-        </li>
-        {% endfor %}
-      </ul>
-      {% else %}
-      {% endif %}
-      <ul class="nav navbar-nav navbar-right">
+      <div class="collapse navbar-collapse" id="collapse">
         {% if user.is_authenticated %}
-        <li class="dropdown">
-          <a href="#"
-             class="dropdown-toggle"
-             data-toggle="dropdown"
-             role="button"
-             aria-haspopup="true"
-             aria-expanded="false">{{ user.account.name }}<span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="{% url 'profile' %}">Profile</a></li>
-            <li><a href="{% url 'django.contrib.auth.views.logout' %}?next=/">Logout</a></li>
-          </ul>
-        </li>
+        <ul class="nav navbar-nav navbar">
+          {% for budget in BUDGETS %}
+          <li>
+            <a href="{{ budget.get_absolute_url }}">{{ budget.name }}</a>
+          </li>
+          {% endfor %}
+        </ul>
         {% else %}
-        <li><a href="{% url 'django.contrib.auth.views.login' %}">Login</a></li>
         {% endif %}
-      </ul>
+        <ul class="nav navbar-nav navbar-right">
+          {% if user.is_authenticated %}
+          <li class="dropdown">
+            <a href="#"
+               class="dropdown-toggle"
+               data-toggle="dropdown"
+               role="button"
+               aria-haspopup="true"
+               aria-expanded="false">{{ user.account.name }}<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="{% url 'profile' %}">Profile</a></li>
+              <li><a href="{% url 'django.contrib.auth.views.logout' %}?next=/">Logout</a></li>
+            </ul>
+          </li>
+          {% else %}
+          <li><a href="{% url 'django.contrib.auth.views.login' %}">Login</a></li>
+          {% endif %}
+        </ul>
+      </div>
     </div>
   </nav>
 </div>
