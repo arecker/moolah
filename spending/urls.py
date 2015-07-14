@@ -13,5 +13,10 @@ urlpatterns = [
         r'^transaction/add/(?P<pk>[^/]+)/$',
         views.transaction_add,
         name='add_transaction'
+    ),
+    url(
+        r'^transaction/(?P<pk>[^/]+)/$',
+        views.TransactionDetailView.as_view(),
+        name='transaction_detail'
     )
 ]

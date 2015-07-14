@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container-fluid">
+  <div class="page-header">
+    <h1 class="lead">{{ object.description }} <small>{{ object.get_reason_display }}</small></h1>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <dl>
+            <dt>Amount</dt>
+            <dd>{{ object.pretty_amount }}</dd>
+            <dt>Date</dt>
+            <dd>{{ object.timestamp | date }}</dd>
+            <dt>Reason</dt>
+            <dd>{{ object.get_reason_display }}</dd>
+            <dt>Logged by</dt>
+            <dd>{{ object.logged_by }}</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

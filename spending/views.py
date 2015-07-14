@@ -3,8 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.template import RequestContext
 from django.contrib.auth.models import User
+from django.views.generic.detail import DetailView
 from .models import Budget, Transaction
 from .forms import MonthlyTransactionForm
+from moolah.mixins import LoginRequiredMixin
 from decimal import Decimal
 
 
@@ -66,6 +68,10 @@ def _format_balance(dec):
     if dec < Decimal(0):
         return '- ${0}'.format(-1 * dec)
     return '${0}'.format(dec)
+
+
+class TransactionDetailView(LoginRequiredMixin, DetailView):
+    model = Transaction
 
 
 @login_required

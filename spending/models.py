@@ -113,9 +113,20 @@ class Transaction(models.Model):
     def __unicode__(self):
         return self.display
 
+    def get_absolute_url(self):
+        return reverse('transaction_detail', args=[str(self.id)])
+
     @property
     def display(self):
+        return '{0} ({1})'.format(self.description, self.pretty_amount)
+
+    @property
+    def pretty_amount(self):
         sign = ''
         if self.negative:
-            sign = '-'
-        return '{0} ({1}{2})'.format(self.description, sign, self.amount)
+            sign = '- '
+        return '{0}${1}'.format(sign, self.amount)
+
+    @property
+    def logged_by(self):
+        return self.user or 'Automatic'
