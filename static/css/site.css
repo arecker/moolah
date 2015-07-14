@@ -1,3 +1,7 @@
 body {
     padding-top: 70px;
 }
+
+@-moz-document url-prefix() {
+  fieldset { display: table-cell; }
+}
