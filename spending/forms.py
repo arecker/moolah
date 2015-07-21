@@ -22,7 +22,7 @@ class MonthlyTransactionForm(forms.ModelForm):
 
     class Meta:
         model = Transaction
-        include = [
+        fields = [
             'description',
             'amount'
         ]
