@@ -22,11 +22,7 @@ class MonthlyTransactionForm(forms.ModelForm):
 
     class Meta:
         model = Transaction
-        exclude = [
-            'user',
-            'budget',
-            'period',
-            'reason',
-            'negative',
-            'memo'
+        include = [
+            'description',
+            'amount'
         ]
