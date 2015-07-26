@@ -7,6 +7,10 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = (
+    # Admin plugins
+    'flat',
+
+    # Builtin
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

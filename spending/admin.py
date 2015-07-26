@@ -6,7 +6,7 @@ from .models import (
 )
 
 
-class TransactionInline(admin.StackedInline):
+class TransactionInline(admin.TabularInline):
     model = Transaction
     extra = 0
 
@@ -18,3 +18,4 @@ class PeriodAdmin(admin.ModelAdmin):
 
 admin.site.register(Period, PeriodAdmin)
 admin.site.register(Budget)
+admin.site.register(Transaction)

@@ -4,3 +4,4 @@ django-forms-bootstrap==3.0.1
 Pillow==2.9.0
 django-nose==1.4.1
 django-annoying==0.8.3
+django-flat-theme==0.9.5
