@@ -6,13 +6,7 @@ from .models import (
 )
 
 
-class TransactionInline(admin.TabularInline):
-    model = Transaction
-    extra = 0
-
-
 class PeriodAdmin(admin.ModelAdmin):
-    inlines = (TransactionInline, )
     list_filter = ('reoccuring', )
 
 
