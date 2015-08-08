@@ -25,7 +25,11 @@ class Budget(models.Model):
         return reverse('budget_detail', args=[str(self.id)])
 
     def __unicode__(self):
-        return '{0} ({1})'.format(self.name, str(self.allowance))
+        return '{0} ({1} {2})'.format(
+            self.name,
+            str(self.allowance),
+            self.get_reoccuring_display()
+        )
 
 
 class Period(models.Model):
