@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
+import tracking.models
 import django.core.validators
 import uuid
 
@@ -27,7 +28,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.UUIDField(primary_key=True, default=uuid.uuid4, serialize=False, editable=False, unique=True)),
                 ('description', models.CharField(max_length=120)),
-                ('timestamp', models.DateTimeField(auto_now_add=True)),
+                ('timestamp', models.DateTimeField(default=tracking.models.get_timestamp, editable=False)),
                 ('amount', models.DecimalField(max_digits=8, decimal_places=2)),
             ],
             options={
