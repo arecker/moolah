@@ -3,6 +3,7 @@
 <h1>Summary</h1>
 <ul>
   {% load tracking_extras %}
+  <li>Base Rate per Day: {{ rate | currency }}</li>
   <li>Today: {{ today | currency }}</li>
   <li>Last 7 days: {{ week | currency }}</li>
   <li>Last 30 days: {{ month | currency }}</li>
