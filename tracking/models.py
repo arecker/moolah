@@ -11,6 +11,10 @@ def get_timestamp():
     return timezone.localtime(timezone.now())
 
 
+def to_decimal(amount, place='0.01'):  # TODO: centralize this
+    return Decimal(amount).quantize(Decimal(place))  # with '$'
+
+
 class RateQuerySet(models.QuerySet):
     def total(self):
         return self.aggregate(
@@ -39,7 +43,7 @@ class Rate(models.Model):
 
     def __unicode__(self):
         return '{0} ({1})'.format(self.description,
-                                  self.amount_per_day)
+                                  to_decimal(self.amount_per_day))
 
 
 class TransactionQuerySet(models.QuerySet):
@@ -54,7 +58,7 @@ class TransactionQuerySet(models.QuerySet):
 
     def date_range(self, start, end):
         return self.filter(timestamp__lt=end,
-                      timestamp__gt=start)
+                           timestamp__gt=start)
 
     def today(self):
         return self.date(get_timestamp())
@@ -89,7 +93,7 @@ class Transaction(models.Model):
 
     def __unicode__(self):
         return '{0} ({1})'.format(self.description,
-                                  self.amount)
+                                  to_decimal(self.amount))
 
     class Meta:
         ordering = ['-timestamp']
