@@ -6,4 +6,7 @@ register = template.Library()
 
 @register.filter()
 def currency(value):
-    return locale.currency(value, grouping=True)
+    try:
+        return locale.currency(value, grouping=True)
+    except TypeError:
+        return '$0.00'
