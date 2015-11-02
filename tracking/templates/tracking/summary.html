@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block body %}
+<h1>Summary</h1>
+<ul>
+  {% load tracking_extras %}
+  <li>Today: {{ today | currency }}</li>
+  <li>Last 7 days: {{ week | currency }}</li>
+  <li>Last 30 days: {{ month | currency }}</li>
+  <li>Last 365 days: {{ year | currency }}</li>
+</ul>
+{% endblock %}

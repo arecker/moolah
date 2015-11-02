@@ -1,0 +1,4 @@
+ipdb==0.8.1
+ipython==4.0.0
+
+-r common.txt

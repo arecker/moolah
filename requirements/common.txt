@@ -1,0 +1,4 @@
+Django==1.8.5
+django-extensions==1.5.7
+django-flat-theme==1.1.1
+pytz==2015.7
