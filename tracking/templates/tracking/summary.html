@@ -1,12 +1,31 @@
 {% extends "base.html" %}
 {% block body %}
+{% load tracking_extras %}
 <h1>Summary</h1>
-<ul>
-  {% load tracking_extras %}
-  <li>Base Rate per Day: {{ rate | currency }}</li>
-  <li>Today: {{ today | currency }}</li>
-  <li>Last 7 days: {{ week | currency }}</li>
-  <li>Last 30 days: {{ month | currency }}</li>
-  <li>Last 365 days: {{ year | currency }}</li>
-</ul>
+<table>
+  <tr>
+    <td>Timestamp</td>
+    <td>{{ timestamp | time }} {{ timestamp | date }}</td>
+  </tr>
+  <tr>
+    <td>Rate per Day</td>
+    <td>{{ rate | currency }}</td>
+  </tr>
+  <tr>
+    <td>Today</td>
+    <td>{{ today | currency }}</td>
+  </tr>
+  <tr>
+    <td>Last 7 days</td>
+    <td>{{ week | currnecy }}</td>
+  </tr>
+  <tr>
+    <td>Last 30 days</td>
+    <td>{{ month | currency }}</td>
+  </tr>
+  <tr>
+    <td>Last 365 days</td>
+    <td>{{ year || currency }}</td>
+  </tr>
+</table>
 {% endblock %}
