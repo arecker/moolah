@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load tracking_extras %}
+{% block body %}
+<h1>Today's Transactions</h1>
+<table>
+  {% for item in transaction_list %}
+  <tr>
+    <td>{{ item.description }}</td>
+    <td>{{ item.amount | currency }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
