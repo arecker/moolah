@@ -9,7 +9,7 @@ class Summary(TemplateView):
     def get_context_data(self, *args, **kwargs):
         transactions = Transaction.objects
         context = super(Summary, self).get_context_data(*args, **kwargs)
-        context['rate'] = Rate.objets.total()
+        context['rate'] = Rate.objects.total()
         context['today'] = transactions.today().total()
         context['week'] = transactions.last_week().total()
         context['month'] = transactions.last_month().total()
