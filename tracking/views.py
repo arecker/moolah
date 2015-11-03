@@ -1,23 +1,14 @@
-from django.views.generic import TemplateView, ListView
+from rest_framework import viewsets
 
-from models import Transaction, Rate, get_timestamp
-
-
-class Summary(TemplateView):
-    template_name = 'tracking/summary.html'
-
-    def get_context_data(self, *args, **kwargs):
-        transactions = Transaction.objects
-        context = super(Summary, self).get_context_data(*args, **kwargs)
-        context['timestamp'] = get_timestamp()
-        context['rate'] = Rate.objects.total()
-        context['today'] = transactions.today().total()
-        context['week'] = transactions.last_week().total()
-        context['month'] = transactions.last_month().total()
-        context['year'] = transactions.last_year().total()
-        return context
+from models import Transaction, Rate
+from serializers import TransactionSerializer, RateSerializer
 
 
-class Today(ListView):
-    model = Transaction
-    queryset = Transaction.objects.today()
+class RateViewSet(viewsets.ModelViewSet):
+    queryset = Rate.objects.all()
+    serializer_class = RateSerializer
+
+
+class TransactionViewSet(viewsets.ModelViewSet):
+    queryset = Transaction.objects.all()
+    serializer_class = TransactionSerializer

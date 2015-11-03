@@ -16,6 +16,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'django_extensions',
+    'rest_framework',
 
     'tracking'
 )
@@ -63,8 +64,18 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
+}
+
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'prod_static')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'bower_components'),
+    os.path.join(BASE_DIR, 'app')
+]
 
 try:
     from prod_settings import *

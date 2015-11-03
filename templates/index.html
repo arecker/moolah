@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<moolah-nav></moolah-nav>
+<div ng-view></div>
+{% endblock %}
+{% block scripts %}
+{% load staticfiles %}
+<script src="{% static 'app.js' %}"></script>
+<script src="{% static 'directives/moolah-nav.js' %}"></script>
+<script src="{% static 'controllers/summary.js' %}"></script>
+<script src="{% static 'services/resource.js' %}"></script>
+<script src="{% static 'services/static.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,24 @@
+{
+  "name": "moolah",
+  "homepage": "https://github.com/arecker/moolah",
+  "authors": [
+    "Alex Recker <alex@reckerfamily.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "GPLv3",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-material-design": "~0.3.0",
+    "bootstrap": "~3.3.5",
+    "angular": "~1.4.7",
+    "angular-route": "~1.4.7"
+  }
+}

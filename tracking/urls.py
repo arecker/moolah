@@ -1,11 +1,10 @@
-from django.conf.urls import url
+from rest_framework.routers import DefaultRouter
 
 import views
 
 
-urlpatterns = [url(r'^$',
-                   views.Summary.as_view(),
-                   name='summary'),
-               url(r'^today/$',
-                   views.Today.as_view(),
-                   name='today')]
+router = DefaultRouter()
+router.register(r'transactions', views.TransactionViewSet)
+router.register(r'rates', views.RateViewSet)
+
+urlpatterns = router.urls

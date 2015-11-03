@@ -1,12 +1,23 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" ng-app="moolah">
   <head>
     <meta charset="UTF-8"/>
     <title>Moolah</title>
+    {% include "css.html" %}
   </head>
   <body>
-    {% include "navigation.html" %}
-    {% block body %}
+    <div class="container-fluid">
+      {% block content %}
+      {% endblock %}
+    </div>
+    {% include "scripts.html" %}
+    {% block scripts %}
     {% endblock %}
+    <script>
+     $(document).ready(function() {
+         // This command is used to initialize some elements and make them work properly
+         $.material.init();
+     });
+    </script>
   </body>
 </html>
