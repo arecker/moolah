@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<moolah-nav></moolah-nav>
+<moolah-nav logout-url="'{% url 'django.contrib.auth.views.logout' %}'"></moolah-nav>
 <div ng-view></div>
 {% endblock %}
 {% block scripts %}
