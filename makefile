@@ -3,6 +3,7 @@ install = pip install
 
 all:
 	${install} -r requirements/prod.txt
+	echo "y" | bower install
 	${manage} migrate
 	${manage} collectstatic --noinput
 test:
