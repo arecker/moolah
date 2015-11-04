@@ -8,13 +8,13 @@ angular.module('moolah', ['ngRoute'])
 
         $routeProvider
             .when('/', {
-                templateUrl: toStatic('views/summary.html'),
+                templateUrl: toStatic('app/views/summary.html'),
                 controller: 'SummaryController',
                 controllerAs: 'controller'
             })
 
             .when('/today', {
-                templateUrl: toStatic('views/today.html'),
+                templateUrl: toStatic('app/views/today.html'),
                 controller: 'TodayController',
                 controllerAs: 'controller'
             });

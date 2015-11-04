@@ -74,7 +74,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'prod_static')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'bower_components'),
-    os.path.join(BASE_DIR, 'app')
+    os.path.join(BASE_DIR, 'static')
 ]
 
 try:

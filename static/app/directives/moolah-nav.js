@@ -14,7 +14,7 @@ angular.module('moolah')
             restrict: 'E',
             controller: 'moolahNavController',
             controllerAs: 'navController',
-            templateUrl: toStatic('directives/moolah-nav.html'),
+            templateUrl: toStatic('app/directives/moolah-nav.html'),
             scope: {
                 logoutUrl: '='
             }
