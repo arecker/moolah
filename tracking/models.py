@@ -7,8 +7,9 @@ from django.utils import timezone
 from django.core.validators import MinValueValidator
 
 
-def get_timestamp():
-    return timezone.localtime(timezone.now())
+def get_timestamp(time=None):
+    time = time or timezone.now()
+    return timezone.localtime(time)
 
 
 def to_decimal(amount, place='0.01'):  # TODO: centralize this
