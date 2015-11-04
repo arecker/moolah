@@ -1,5 +1,5 @@
 /*global angular*/
-angular.module('moolah', ['ngRoute'])
+angular.module('moolah', ['ngRoute', 'ngResource'])
     .constant('STATIC_URL', '/static/')
     .config(function($routeProvider, STATIC_URL) {
         var toStatic = function(i) {

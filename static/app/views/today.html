@@ -1,2 +1,18 @@
-<h1>Today</h1>
-<button ng-click="controller.clicky()">A different button</button>
+<div class="row">
+  <div class="col-md-4">
+    <div class="table-responsive">
+      <table class="table">
+        <tr>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Amount</th>
+        </tr>
+        <tr ng-repeat="t in controller.transactions">
+          <td>{{ t.timestamp | date }}</td>
+          <td>{{ t.description }}</td>
+          <td>{{ t.amount | currency }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

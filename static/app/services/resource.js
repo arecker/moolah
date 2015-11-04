@@ -1,4 +1,4 @@
 angular.module('moolah')
-    .factory('SummaryService', function() {
-
+    .factory('TransactionService', function($resource) {
+        return $resource('/api/transactions/');
     });

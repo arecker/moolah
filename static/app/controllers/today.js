@@ -1,9 +1,8 @@
 /*globals angular */
 angular.module('moolah')
-    .controller('TodayController', function() {
+    .controller('TodayController', function(TransactionService) {
         var self = this;
-
-        self.clicky = function() {
-            alert('clicked the today button');
-        };
+        self.transactions = TransactionService.query({
+            date: moment()
+        });
     });

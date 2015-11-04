@@ -1,3 +1,5 @@
+from dateutil import parser
+
 from rest_framework import viewsets
 
 from models import Transaction, Rate
@@ -12,3 +14,16 @@ class RateViewSet(viewsets.ModelViewSet):
 class TransactionViewSet(viewsets.ModelViewSet):
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
+
+    def get_queryset(self, *args, **kwargs):
+        date = (self
+                .request
+                .query_params
+                .get('date', None)
+                .replace('"', ''))
+
+        if date:
+            parsed = parser.parse(date)
+            return self.queryset.date(parsed)
+
+        return super(TransactionViewSet, self).get_queryset(*args, **kwargs)
