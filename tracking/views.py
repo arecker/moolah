@@ -19,11 +19,10 @@ class TransactionViewSet(viewsets.ModelViewSet):
         date = (self
                 .request
                 .query_params
-                .get('date', None)
-                .replace('"', ''))
+                .get('date', None))
 
         if date:
-            parsed = parser.parse(date)
+            parsed = parser.parse(date.replace('"', ''))
             return self.queryset.date(parsed)
 
         return super(TransactionViewSet, self).get_queryset(*args, **kwargs)
