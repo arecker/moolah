@@ -11,11 +11,17 @@
       {% endblock %}
     </div>
     {% include "scripts.html" %}
+    {% load staticfiles %}
+    <script src="{% static 'app/app.js' %}"></script>
+    <script src="{% static 'app/directives/moolah-nav.js' %}"></script>
+    <script src="{% static 'app/controllers/summary.js' %}"></script>
+    <script src="{% static 'app/controllers/today.js' %}"></script>
+    <script src="{% static 'app/services/resource.js' %}"></script>
+    <script src="{% static 'app/services/static.js' %}"></script>
     {% block scripts %}
     {% endblock %}
     <script>
      $(document).ready(function() {
-         // This command is used to initialize some elements and make them work properly
          $.material.init();
      });
     </script>
