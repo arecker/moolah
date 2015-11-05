@@ -4,7 +4,7 @@ from django.conf.urls import url
 import views
 
 
-router = DefaultRouter(trailing_slash=False)
+router = DefaultRouter()
 router.register(r'transactions', views.TransactionViewSet)
 router.register(r'rates', views.RateViewSet)
 

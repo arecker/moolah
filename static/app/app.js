@@ -1,5 +1,5 @@
 angular.module('moolah', ['ngRoute', 'ngResource'])
-    .config(['$httpProvider', '$routeProvider', 'STATIC_URL', function($httpProvider, $routeProvider, STATIC_URL) {
+    .config(['$httpProvider', '$routeProvider', '$resourceProvider', 'STATIC_URL', function($httpProvider, $routeProvider, $resourceProvider, STATIC_URL) {
 
         var toStatic = function(i) {
             // no services in app.config :(
@@ -8,6 +8,7 @@ angular.module('moolah', ['ngRoute', 'ngResource'])
 
         $httpProvider.defaults.xsrfCookieName = 'csrftoken';
         $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+        $resourceProvider.defaults.stripTrailingSlashes = false;
 
         $routeProvider
             .when('/', {
