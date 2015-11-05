@@ -1,18 +1,76 @@
 <div class="row">
   <div class="col-md-4">
     <div class="table-responsive">
+      <table class="table table-bordered">
+        <tr>
+          <td>
+            <strong>Today</strong>
+          </td>
+          <td>{{ controller.summary.day | currency }}</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Week</strong>
+          </td>
+          <td>{{ controller.summary.week | currency }}</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Month</strong>
+          </td>
+          <td>{{ controller.summary.month | currency }}</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Year</strong>
+          </td>
+          <td>{{ controller.summary.year | currency }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <button type="button"
+            class="btn btn-success"
+            data-toggle="modal"
+            data-target="#addPurchaseModal">Add Purchase</button>
+    <div class="table-responsive">
       <table class="table">
         <tr>
-          <th>Date</th>
           <th>Description</th>
           <th>Amount</th>
         </tr>
         <tr ng-repeat="t in controller.transactions">
-          <td>{{ t.timestamp | date }}</td>
           <td>{{ t.description }}</td>
           <td>{{ t.amount | currency }}</td>
         </tr>
       </table>
+    </div>
+  </div>
+</div>
+
+<div id="addPurchaseModal" class="modal fade">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label>Description</label>
+            <input ng-model="controller.newTrans.description" type="text" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Amount ($)</label>
+            <input ng-model="controller.newTrans.amount" type="number" class="form-control">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button ng-click="controller.addTransaction()" data-dismiss="modal" type="button" class="btn btn-primary">Add</button>
+      </div>
     </div>
   </div>
 </div>
