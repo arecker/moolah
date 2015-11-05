@@ -24,10 +24,10 @@
     {% compress js inline %}
     <script>
      $(document).ready(function() {
-         $.material.init(); // initialize theme
          $(".navbar-nav li a").click(function(event) {
              $(".navbar-collapse").collapse('hide'); // fixes navbar mobile
          });
+         $.material.init(); // initialize theme
      });
     </script>
     {% endcompress %}
