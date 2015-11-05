@@ -1,5 +1,24 @@
 {% extends "base.html" %}
+{% block html %}
+<html lang="en" ng-app="moolah">
+{% endblock %}
 {% block content %}
-<moolah-nav logout-url="'{% url 'django.contrib.auth.views.logout' %}'"></moolah-nav>
+<moolah-nav></moolah-nav>
 <div ng-view></div>
+{% endblock %}
+{% block scripts %}
+{% load staticfiles %}
+<script src="{% static 'app/app.js' %}"></script>
+<script src="{% static 'app/directives/moolah-nav.js' %}"></script>
+<script src="{% static 'app/controllers/summary.js' %}"></script>
+<script src="{% static 'app/controllers/today.js' %}"></script>
+<script src="{% static 'app/services/resource.js' %}"></script>
+<script src="{% static 'app/services/static.js' %}"></script>
+<script>
+ angular.module('moolah')
+        .constant('STATIC_URL', '/static/')
+        .constant('API_URL', '/api/')
+        .constant('LOGOUT_URL', '{% url 'django.contrib.auth.views.logout' %}')
+        .constant('USER_NAME', '{{ user.get_username }}');
+</script>
 {% endblock %}

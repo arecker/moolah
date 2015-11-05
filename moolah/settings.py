@@ -18,6 +18,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'rest_framework',
     'django_forms_bootstrap',
+    'compressor',
 
     'tracking'
 )
@@ -74,9 +75,14 @@ REST_FRAMEWORK = {
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'prod_static')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'bower_components'),
+    os.path.join(BASE_DIR, 'bower'),
     os.path.join(BASE_DIR, 'static')
 ]
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+)
 
 try:
     from prod_settings import *

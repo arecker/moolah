@@ -1,8 +1,8 @@
-/*global angular*/
 angular.module('moolah', ['ngRoute', 'ngResource'])
-    .constant('STATIC_URL', '/static/')
-    .config(function($routeProvider, STATIC_URL) {
+    .config(['$routeProvider', 'STATIC_URL', function($routeProvider, STATIC_URL) {
+
         var toStatic = function(i) {
+            // no services in app.config :(
             return '{}{}'.format(STATIC_URL, i);
         };
 
@@ -18,4 +18,4 @@ angular.module('moolah', ['ngRoute', 'ngResource'])
                 controller: 'TodayController',
                 controllerAs: 'controller'
             });
-    });
+    }]);
