@@ -1,10 +1,19 @@
 {% load staticfiles %}
-<script src="{% static 'js/polyfills.js' %}"></script>
+{% if debug %}
+<script src="{% static 'bower_components/jquery/dist/jquery.js' %}"></script>
+<script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.js' %}"></script>
+<script src="{% static 'bower_components/angular/angular.js' %}"></script>
+<script src="{% static 'bower_components/angular-route/angular-route.js' %}"></script>
+<script src="{% static 'bower_components/angular-resource/angular-resource.js' %}"></script>
+<script src="{% static 'bower_components/moment/moment.js' %}"></script>
+{% else %}
 <script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
 <script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
-<script src="{% static 'bower_components/bootstrap-material-design/dist/js/ripples.min.js' %}"></script>
-<script src="{% static 'bower_components/bootstrap-material-design/dist/js/material.min.js' %}"></script>
-<script src="{% static 'bower_components/moment/moment.js' %}"></script>
-<script src="{% static 'bower_components/angular/angular.js' %}"></script>
+<script src="{% static 'bower_components/angular/angular.min.js' %}"></script>
 <script src="{% static 'bower_components/angular-route/angular-route.min.js' %}"></script>
 <script src="{% static 'bower_components/angular-resource/angular-resource.min.js' %}"></script>
+<script src="{% static 'bower_components/moment/moment.min.js' %}"></script>
+{% endif %}
+<script src="{% static 'js/polyfills.js' %}"></script>
+<script src="{% static 'bower_components/bootstrap-material-design/dist/js/ripples.min.js' %}"></script>
+<script src="{% static 'bower_components/bootstrap-material-design/dist/js/material.min.js' %}"></script>

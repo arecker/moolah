@@ -3,6 +3,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'this-is-so-fricken-secret'
 DEBUG = True
+INTERNAL_IPS = ('127.0.0.1', )
 
 ALLOWED_HOSTS = []
 INSTALLED_APPS = (
@@ -89,7 +90,7 @@ COMPRESS_CSS_FILTERS = (
 COMPRESS_JS_FILTERS = (
     'compressor.filters.yuglify.YUglifyJSFilter',
 )
-COMPRESS_ENABLED=True
+
 try:
     from prod_settings import *
 except ImportError:
