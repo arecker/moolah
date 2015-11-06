@@ -83,7 +83,13 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'compressor.finders.CompressorFinder',
 )
-
+COMPRESS_CSS_FILTERS = (
+    'compressor.filters.yuglify.YUglifyCSSFilter',
+)
+COMPRESS_JS_FILTERS = (
+    'compressor.filters.yuglify.YUglifyJSFilter',
+)
+COMPRESS_ENABLED=True
 try:
     from prod_settings import *
 except ImportError:
