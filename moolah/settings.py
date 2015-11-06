@@ -3,7 +3,6 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'this-is-so-fricken-secret'
 DEBUG = True
-INTERNAL_IPS = ('127.0.0.1', )
 
 ALLOWED_HOSTS = []
 INSTALLED_APPS = (
