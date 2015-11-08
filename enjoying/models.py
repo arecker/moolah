@@ -4,5 +4,5 @@ from django.contrib.auth.models import User
 from moolah.models import TransactionBase
 
 
-class Transaction(TransactionBase):
+class Purchase(TransactionBase):
     user = models.ForeignKey(User)

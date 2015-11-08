@@ -1,9 +1,9 @@
 from django.contrib import admin
 
-from models import Transaction
+from models import Purchase
 
-class TransactionAdmin(admin.ModelAdmin):
+class PurchaseAdmin(admin.ModelAdmin):
     list_display = ('description', 'timestamp', 'amount', 'user')
 
 
-admin.site.register(Transaction, TransactionAdmin)
+admin.site.register(Purchase, PurchaseAdmin)

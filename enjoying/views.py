@@ -1,9 +1,9 @@
 from rest_framework import viewsets
 
-from models import Transaction
-from serializers import TransactionSerializer
+from models import Purchase
+from serializers import PurchaseSerializer
 
 
-class TransactionViewSet(viewsets.ModelViewSet):
-    queryset = Transaction.objects.all()
-    serializer_class = TransactionSerializer
+class PurchaseViewSet(viewsets.ModelViewSet):
+    queryset = Purchase.objects.all()
+    serializer_class = PurchaseSerializer
