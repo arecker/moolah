@@ -1,35 +1,30 @@
-<div class="card">
-  <div class="card-image">
-    <h4 class="card-image-headline">Today's Numbers</h4>
+<moolah-card card-title="'Summary'">
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <tr>
+        <td>
+          <strong>Today</strong>
+        </td>
+        <td>{{ summaryCtrl.summary.day | currency }}</td>
+      </tr>
+      <tr>
+        <td>
+          <strong>Week</strong>
+        </td>
+        <td>{{ summaryCtrl.summary.week | currency }}</td>
+      </tr>
+      <tr>
+        <td>
+          <strong>Month</strong>
+        </td>
+        <td>{{ summaryCtrl.summary.month | currency }}</td>
+      </tr>
+      <tr>
+        <td>
+          <strong>Year</strong>
+        </td>
+        <td>{{ summaryCtrl.summary.year | currency }}</td>
+      </tr>
+    </table>
   </div>
-  <div class="card-body">
-    <div class="table-responsive">
-      <table class="table table-bordered">
-        <tr>
-          <td>
-            <strong>Today</strong>
-          </td>
-          <td>{{ summaryCtrl.summary.day | currency }}</td>
-        </tr>
-        <tr>
-          <td>
-            <strong>Week</strong>
-          </td>
-          <td>{{ summaryCtrl.summary.week | currency }}</td>
-        </tr>
-        <tr>
-          <td>
-            <strong>Month</strong>
-          </td>
-          <td>{{ summaryCtrl.summary.month | currency }}</td>
-        </tr>
-        <tr>
-          <td>
-            <strong>Year</strong>
-          </td>
-          <td>{{ summaryCtrl.summary.year | currency }}</td>
-        </tr>
-      </table>
-    </div>
-  </div>
-</div>
+</moolah-card>

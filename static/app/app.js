@@ -12,14 +12,8 @@ angular.module('moolah', ['ngRoute', 'ngResource'])
 
         $routeProvider
             .when('/', {
-                templateUrl: toStatic('app/views/today.html'),
-                controller: 'TodayController',
-                controllerAs: 'controller'
-            })
-
-            .when('/fun', {
-                templateUrl: toStatic('app/views/fun.html'),
-                controller: 'FunController',
-                controllerAs: 'controller'
+                templateUrl: toStatic('app/views/dashboard.html'),
+                controller: 'DashboardController',
+                controllerAs: 'dashboardCtrl'
             });
     }]);
