@@ -15,5 +15,11 @@ angular.module('moolah', ['ngRoute', 'ngResource'])
                 templateUrl: toStatic('app/views/today.html'),
                 controller: 'TodayController',
                 controllerAs: 'controller'
+            })
+
+            .when('/fun', {
+                templateUrl: toStatic('app/views/fun.html'),
+                controller: 'FunController',
+                controllerAs: 'controller'
             });
     }]);

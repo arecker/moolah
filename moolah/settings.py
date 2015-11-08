@@ -20,7 +20,8 @@ INSTALLED_APPS = (
     'django_forms_bootstrap',
     'compressor',
 
-    'tracking'
+    'tracking',
+    'enjoying'
 )
 
 MIDDLEWARE_CLASSES = (
