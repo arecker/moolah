@@ -3,35 +3,8 @@
     <moolah-summary api="dashboardCtrl.summaryApi"></moolah-summary>
   </div>
   <div class="col-md-4">
-    <moolah-todays-transactions api="dashboardCtrl.todaysTransApi"></moolah-todays-transactions>
-  </div>
-</div>
-
-<div id="addPurchaseModal" class="modal fade">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label>Description</label>
-            <input ng-model="dashboardCtrl.newTransaction.description" type="text" class="form-control">
-          </div>
-          <div class="form-group">
-            <label>Amount ($)</label>
-            <input ng-model="dashboardCtrl.newTransaction.amount"
-                   type="number"
-                   min="0"
-                   class="form-control">
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button ng-click="dashboardCtrl.addTransaction()" data-dismiss="modal" type="button" class="btn btn-primary">Add</button>
-      </div>
-    </div>
+    <moolah-todays-transactions api="dashboardCtrl.todaysTransApi"
+                                after-save="dashboardCtrl.goGoGadgetReloadEverything">
+    </moolah-todays-transactions>
   </div>
 </div>

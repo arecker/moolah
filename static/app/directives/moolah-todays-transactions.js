@@ -3,6 +3,22 @@ angular.module('moolah')
     .controller('moolahTodaysTransactionsController', ['TransactionService', function(TransactionService) {
         var self = this;
 
+        self.showForm = false;
+        self.newTransaction = {};
+        self.afterSave = self.afterSave || angular.noop;
+
+        self.formToggle = function() {
+            self.showForm = !self.showForm;
+        };
+
+        self.submit = function() {
+            TransactionService.save(self.newTransaction, function() {
+                self.afterSave();
+                self.newTransaction = {};
+                self.formToggle();
+            });
+        };
+
         self.api.reload = function() {
             self.transactions = TransactionService.query({
                 date: moment()
@@ -21,7 +37,8 @@ angular.module('moolah')
             templateUrl: toStatic('app/directives/moolah-todays-transactions.html'),
             bindToController: true,
             scope: {
-                api: '=?'
+                api: '=?',
+                afterSave: '=?'
             }
         };
     }]);

@@ -6,6 +6,11 @@ angular.module('moolah')
         self.summaryApi = {};
         self.todaysTransApi = {};
 
+        self.goGoGadgetReloadEverything = function() {
+            self.todaysTransApi.reload();
+            self.summaryApi.reload();
+        };
+
         self.addTransaction = function() {
             TransactionService.save(self.newTransaction, function() {
                 self.newTransaction = {};
