@@ -1,17 +1,16 @@
 angular.module('moolah')
 
-    .controller('moolahSummaryController', ['$scope', 'SummaryService', function($scope, SummaryService) {
-        var self = this,
-            reloadSummary = function() {
-                SummaryService.get().success(function(d) {
-                    self.summary = d;
-                });
-            };
+    .controller('moolahSummaryController', ['SummaryService', function(SummaryService) {
+        var self = this;
 
         self.summary = {};
-        reloadSummary();
+        self.api.reload = function() {
+            SummaryService.get().success(function(d) {
+                self.summary = d;
+            });
+        };
 
-        $scope.api.reload = reloadSummary;
+        self.api.reload();
     }])
 
     .directive('moolahSummary', ['toStatic', function(toStatic) {
@@ -20,6 +19,7 @@ angular.module('moolah')
             controller: 'moolahSummaryController',
             controllerAs: 'summaryCtrl',
             templateUrl: toStatic('app/directives/moolah-summary.html'),
+            bindToController: true,
             scope: {
                 api: '=?'
             }
