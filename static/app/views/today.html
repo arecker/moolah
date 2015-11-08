@@ -1,40 +1,6 @@
 <div class="row">
   <div class="col-md-4">
-    <div class="card">
-      <div class="card-image">
-        <h4 class="card-image-headline">Today's Numbers</h4>
-      </div>
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table table-bordered">
-            <tr>
-              <td>
-                <strong>Today</strong>
-              </td>
-              <td>{{ controller.summary.day | currency }}</td>
-            </tr>
-            <tr>
-              <td>
-                <strong>Week</strong>
-              </td>
-              <td>{{ controller.summary.week | currency }}</td>
-            </tr>
-            <tr>
-              <td>
-                <strong>Month</strong>
-              </td>
-              <td>{{ controller.summary.month | currency }}</td>
-            </tr>
-            <tr>
-              <td>
-                <strong>Year</strong>
-              </td>
-              <td>{{ controller.summary.year | currency }}</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-    </div>
+    <moolah-summary api="controller.summaryApi"></moolah-summary>
   </div>
   <div class="col-md-4">
     <div class="card">

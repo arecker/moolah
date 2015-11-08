@@ -18,12 +18,13 @@ angular.module('moolah')
         refreshTransactions();
         refreshSummary();
         self.newTransaction = {};
+        self.summaryApi = {};
 
         self.addTransaction = function() {
             TransactionService.save(self.newTransaction, function() {
                 self.newTransaction = {};
                 refreshTransactions();
-                refreshSummary();
+                self.summaryApi.reload();
             });
         };
 
