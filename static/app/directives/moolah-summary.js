@@ -3,6 +3,7 @@ angular.module('moolah')
     .controller('moolahSummaryController', ['SummaryService', function(SummaryService) {
         var self = this;
 
+        self.api = self.api || {};
         self.summary = {};
         self.api.reload = function() {
             SummaryService.get().success(function(d) {

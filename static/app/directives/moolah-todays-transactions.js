@@ -6,6 +6,7 @@ angular.module('moolah')
         self.showForm = false;
         self.newTransaction = {};
         self.afterSave = self.afterSave || angular.noop;
+        self.api = self.api || {};
 
         self.formToggle = function() {
             self.showForm = !self.showForm;
