@@ -14,6 +14,7 @@ class UserAdmin(UserAdmin):
 
 class PurchaseAdmin(admin.ModelAdmin):
     list_display = ('description', 'timestamp', 'amount', 'allowance')
+    list_filter = ('allowance', )
 
 
 admin.site.unregister(User)
