@@ -14,6 +14,7 @@ angular.module('moolah')
 
         self.reloadFunMoney = function() {
             self.funMoneyApi.reload();
+            self.summaryApi.reload();
         };
 
     }]);

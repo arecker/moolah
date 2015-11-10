@@ -1,6 +1,7 @@
 from rest_framework import viewsets, views, response
 
 from models import Transaction, Rate
+from enjoying.models import Purchase
 from serializers import TransactionSerializer, RateSerializer
 
 
@@ -23,9 +24,12 @@ class TransactionViewSet(viewsets.ModelViewSet):
 class SummaryView(views.APIView):
     def get(self, request):
         t = Transaction.objects
+        p = Purchase.objects
+
         data = {'rate': Rate.objects.total(),
                 'day': t.today().total(),
                 'week': t.last_week().total(),
                 'month': t.last_month().total(),
-                'year': t.last_year().total()}
+                'year': t.last_year().total(),
+                'fun': p.current_user(request).this_month().total()}
         return response.Response(data)
