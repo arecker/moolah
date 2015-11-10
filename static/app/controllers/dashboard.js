@@ -5,10 +5,15 @@ angular.module('moolah')
         self.newTransaction = {};
         self.summaryApi = {};
         self.todaysTransApi = {};
+        self.funMoneyApi = {};
 
         self.goGoGadgetReloadEverything = function() {
             self.todaysTransApi.reload();
             self.summaryApi.reload();
+        };
+
+        self.reloadFunMoney = function() {
+            self.funMoneyApi.reload();
         };
 
     }]);

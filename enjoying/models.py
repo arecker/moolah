@@ -33,6 +33,9 @@ class Allowance(models.Model):
 
 
 class PurchaseQuerySet(TransactionBaseQuerySet):
+    def current_user(self, request):
+        return self.filter(allowance__user=request.user)
+
     def by_allowance(self, allowance):
         return self.filter(allowance=allowance)
 

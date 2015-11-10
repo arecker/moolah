@@ -16,7 +16,6 @@ angular.module('moolah')
             TransactionService.save(self.newTransaction, function() {
                 self.afterSave();
                 self.newTransaction = {};
-                self.formToggle();
             });
         };
 

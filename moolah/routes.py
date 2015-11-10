@@ -7,7 +7,7 @@ from enjoying.views import PurchaseViewSet
 router = DefaultRouter()
 router.register(r'transactions', TransactionViewSet)
 router.register(r'rates', RateViewSet)
-router.register(r'pruchases', PurchaseViewSet)
+router.register(r'purchases', PurchaseViewSet)
 
 
 urlpatterns = router.urls + [
