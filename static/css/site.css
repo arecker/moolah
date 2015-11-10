@@ -1,4 +1,6 @@
-body { padding-top: 70px; }
+body {
+    padding-top: 90px;
+}
 
 .vertical-center {
   min-height: 80%;
