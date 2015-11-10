@@ -31,7 +31,7 @@ def sanitize_dates(func):
 class TransactionBaseQuerySet(models.QuerySet):
     def total(self):
         return self.aggregate(
-            models.Sum('amount'))['amount__sum']
+            models.Sum('amount'))['amount__sum'] or 0
 
     @sanitize_dates
     def date(self, date):
