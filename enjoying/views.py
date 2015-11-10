@@ -9,4 +9,4 @@ class PurchaseViewSet(viewsets.ModelViewSet):
     serializer_class = PurchaseSerializer
 
     def get_queryset(self, *args, **kwargs):
-        return self.queryset.current_user(self.request)
+        return self.queryset.current_user(self.request).this_month()

@@ -47,6 +47,11 @@ class TransactionBaseQuerySet(models.QuerySet):
     def today(self):
         return self.date(get_timestamp())
 
+    def this_month(self):
+        date = get_timestamp()
+        return self.filter(timestamp__month=date.month,
+                           timestamp__year=date.year)
+
     def last_week(self):
         return self._from_today(7)
 
