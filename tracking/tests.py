@@ -2,7 +2,7 @@ from decimal import Decimal
 
 from django.test import TestCase
 
-from models import Rate, Transaction, transact_rate_balance
+from models import Rate, Transaction
 
 
 def to_decimal(amount, place='0.001'):
@@ -88,6 +88,6 @@ class TestTransactRateBalance(TestCase):
         self.rate2.refresh_from_db()
 
     def test_transaction(self):
-        transact_rate_balance()
+        Transaction.objects.transact_rate_balance()
         self.assertEqual(Transaction.objects.total(),
                          to_decimal(-5, place='0.01'))

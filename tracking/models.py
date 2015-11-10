@@ -4,7 +4,7 @@ from decimal import Decimal
 from django.db import models
 from django.core.validators import MinValueValidator
 
-from moolah.models import TransactionBase
+from moolah.models import TransactionBase, TransactionBaseQuerySet
 from moolah.utils import to_decimal, get_timestamp
 
 
@@ -39,14 +39,15 @@ class Rate(models.Model):
                                   to_decimal(self.amount_per_day))
 
 
+class TransactionQuerySet(TransactionBaseQuerySet):
+    def transact_rate_balance(self):
+        transaction = self.model()
+        transaction.description = ('Rate Balance for {0}'
+                                   .format(get_timestamp()
+                                           .strftime("%m/%d/%Y")))
+        transaction.amount = Rate.objects.total()
+        return transaction.save()
+
+
 class Transaction(TransactionBase):
-    pass
-
-
-def transact_rate_balance():
-    transaction = Transaction()
-    transaction.description = ('Rate Balance for {0}'
-                               .format(get_timestamp()
-                                       .strftime("%m/%d/%Y")))
-    transaction.amount = Rate.objects.total()
-    transaction.save()
+    objects = TransactionQuerySet.as_manager()

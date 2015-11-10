@@ -1,5 +1,5 @@
-from tracking.models import transact_rate_balance
+from tracking.models import Transaction
 
 
 def run():
-    transact_rate_balance()
+    Transaction.objects.transact_rate_balance()
