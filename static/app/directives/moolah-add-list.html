@@ -18,7 +18,7 @@
       <button ng-click="addListCtrl.submit()" class="btn btn-success">Add</button>
     </form>
   </div>
-  <div class="table-responsive">
+  <div class="table-responsive" cg-busy="addListCtrl.activePromise">
     <table class="table">
       <tr>
         <th>Description</th>

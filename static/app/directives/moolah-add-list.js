@@ -26,7 +26,7 @@ angular.module('moolah')
         };
 
         self.submit = function() {
-            self.resource.save(self.newObj, function() {
+            self.activePromise = self.resource.save(self.newObj, function() {
                 self.afterSave();
                 self.newObj = {};
                 self.api.reload();
@@ -34,7 +34,7 @@ angular.module('moolah')
         };
 
         self.api.reload = function() {
-            self.resource.query(self.getQueryFilter())
+            self.activePromise = self.resource.query(self.getQueryFilter())
                 .$promise.then(function(d) {
                     self.collection = d;
                     refreshTotal();

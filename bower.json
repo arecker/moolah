@@ -22,6 +22,7 @@
     "angular-route": "~1.4.7",
     "angular-resource": "~1.4.7",
     "moment": "~2.10.6",
-    "font-awesome": "~4.4.0"
+    "font-awesome": "~4.4.0",
+    "angular-busy": "~4.1.3"
   }
 }
