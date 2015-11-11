@@ -31,7 +31,10 @@ class DailyTransactionReportView(views.APIView):
                               '7': '7 days ago'}
         for n in range(7):
             labels.append(number_format_dict.get(str(n)))
-            data.append(t.days_ago(n).total())
+            if n is 0:          # lol...
+                data.append(t.today().total())
+            else:
+                data.append(t.days_ago(n).total())
 
         return response.Response({'labels': labels,
                                   'data': [data],
