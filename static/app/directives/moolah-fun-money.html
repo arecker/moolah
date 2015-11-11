@@ -1,33 +1,5 @@
-<moolah-card card-title="'Fun Money'"
-             form-toggle="funMoneyCtrl.formToggle">
-  <div class="well well sm" ng-if="funMoneyCtrl.showForm">
-    <form>
-      <div class="form-group">
-        <label>Description</label>
-        <input ng-model="funMoneyCtrl.newPurchase.description"
-               type="text"
-               class="form-control">
-      </div>
-      <div class="form-group">
-        <label>Amount ($)</label>
-        <input ng-model="funMoneyCtrl.newPurchase.amount"
-               type="number"
-               min="0"
-               class="form-control">
-      </div>
-      <button ng-click="funMoneyCtrl.submit()" class="btn btn-success">Add</button>
-    </form>
-  </div>
-  <div class="table-responsive">
-    <table class="table">
-      <tr>
-        <th>Description</th>
-        <th>Amount</th>
-      </tr>
-      <tr ng-repeat="p in funMoneyCtrl.purchases">
-        <td>{{ p.description }}</td>
-        <td>{{ p.amount | currency }}</td>
-      </tr>
-    </table>
-  </div>
-</moolah-card>
+<moolah-add-list api="funMoneyCtrl.api"
+                 resource="funMoneyCtrl.resource"
+                 after-save="funMoneyCtrl.afterSave"
+                 card-title="funMoneyCtrl.cardTitle">
+</moolah-add-list>

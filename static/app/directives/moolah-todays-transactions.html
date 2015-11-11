@@ -1,33 +1,6 @@
-<moolah-card card-title="'Today\'s Purchases'"
-             form-toggle="todaysTransCtrl.formToggle">
-  <div class="well well sm" ng-if="todaysTransCtrl.showForm">
-    <form>
-      <div class="form-group">
-        <label>Description</label>
-        <input ng-model="todaysTransCtrl.newTransaction.description"
-               type="text"
-               class="form-control">
-      </div>
-      <div class="form-group">
-        <label>Amount ($)</label>
-        <input ng-model="todaysTransCtrl.newTransaction.amount"
-               type="number"
-               min="0"
-               class="form-control">
-      </div>
-      <button ng-click="todaysTransCtrl.submit()" class="btn btn-success">Add</button>
-    </form>
-  </div>
-  <div class="table-responsive">
-    <table class="table">
-      <tr>
-        <th>Description</th>
-        <th>Amount</th>
-      </tr>
-      <tr ng-repeat="t in todaysTransCtrl.transactions">
-        <td>{{ t.description }}</td>
-        <td>{{ t.amount | currency }}</td>
-      </tr>
-    </table>
-  </div>
-</moolah-card>
+<moolah-add-list api="todaysTransCtrl.api"
+                 resource="todaysTransCtrl.resource"
+                 get-query-filter="todaysTransCtrl.getQueryFilter"
+                 after-save="todaysTransCtrl.afterSave"
+                 card-title="todaysTransCtrl.cardTitle">
+</moolah-add-list>

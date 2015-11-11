@@ -2,31 +2,15 @@ angular.module('moolah')
 
     .controller('moolahTodaysTransactionsController', ['TransactionService', function(TransactionService) {
         var self = this;
-
-        self.showForm = false;
-        self.newTransaction = {};
-        self.afterSave = self.afterSave || angular.noop;
         self.api = self.api || {};
-
-        self.formToggle = function() {
-            self.showForm = !self.showForm;
-        };
-
-        self.submit = function() {
-            TransactionService.save(self.newTransaction, function() {
-                self.afterSave();
-                self.newTransaction = {};
-            });
-        };
-
-        self.api.reload = function() {
-            self.transactions = TransactionService.query({
+        self.resource = TransactionService;
+        self.afterSave = self.afterSave || angular.noop;
+        self.getQueryFilter = function() {
+            return {
                 date: moment()
-            });
+            };
         };
-
-        self.api.reload();
-
+        self.cardTitle = 'Today\'s Transactions';
     }])
 
     .directive('moolahTodaysTransactions', ['toStatic', function(toStatic) {
