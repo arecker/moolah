@@ -3,6 +3,18 @@ angular.module('moolah')
         return $resource('{}transactions/:id'.format(API_URL));
     }])
 
+    .factory('ReportService', ['$http', 'REPORT_URLS', function($http, REPORT_URLS) {
+        var buildGet = function(key) {
+            return $http.get(REPORT_URLS[key]);
+        };
+
+        return {
+            summary: function() {
+                return buildGet('summary');
+            }
+        };
+    }])
+
     .factory('SummaryService', ['$http', 'API_URL', function($http, API_URL) {
         return {
             get: function() {

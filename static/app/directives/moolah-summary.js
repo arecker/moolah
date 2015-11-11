@@ -1,12 +1,12 @@
 angular.module('moolah')
 
-    .controller('moolahSummaryController', ['SummaryService', function(SummaryService) {
+    .controller('moolahSummaryController', ['ReportService', function(ReportService) {
         var self = this;
 
         self.api = self.api || {};
         self.summary = {};
         self.api.reload = function() {
-            SummaryService.get().success(function(d) {
+            ReportService.summary().success(function(d) {
                 self.summary = d;
             });
         };

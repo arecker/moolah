@@ -23,6 +23,9 @@
         .constant('STATIC_URL', '/static/')
         .constant('API_URL', '/api/')
         .constant('LOGOUT_URL', '{% url 'django.contrib.auth.views.logout' %}')
-        .constant('USER_NAME', '{{ user.get_full_name }}');
+        .constant('USER_NAME', '{{ user.get_full_name }}')
+        .constant('REPORT_URLS', {
+            'summary': '{% url 'reports:summary' %}'
+        });
 </script>
 {% endblock %}

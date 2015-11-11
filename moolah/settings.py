@@ -21,7 +21,8 @@ INSTALLED_APPS = (
     'compressor',
 
     'tracking',
-    'enjoying'
+    'enjoying',
+    'reporting'
 )
 
 MIDDLEWARE_CLASSES = (
