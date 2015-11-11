@@ -11,6 +11,9 @@ angular.module('moolah')
         return {
             summary: function() {
                 return buildGet('summary');
+            },
+            dailyTransactionReport: function() {
+                return buildGet('dailyTransaction');
             }
         };
     }])

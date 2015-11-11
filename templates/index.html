@@ -15,6 +15,7 @@
 <script src="{% static 'app/directives/moolah-summary.js' %}"></script>
 <script src="{% static 'app/directives/moolah-todays-transactions.js' %}"></script>
 <script src="{% static 'app/directives/moolah-fun-money.js' %}"></script>
+<script src="{% static 'app/directives/daily-transaction-report.js' %}"></script>
 <script src="{% static 'app/controllers/dashboard.js' %}"></script>
 <script src="{% static 'app/services/resource.js' %}"></script>
 <script src="{% static 'app/services/static.js' %}"></script>
@@ -25,7 +26,8 @@
         .constant('LOGOUT_URL', '{% url 'django.contrib.auth.views.logout' %}')
         .constant('USER_NAME', '{{ user.get_full_name }}')
         .constant('REPORT_URLS', {
-            'summary': '{% url 'reports:summary' %}'
+            'summary': '{% url 'reports:summary' %}',
+            'dailyTransaction': '{% url 'reports:daily_transaction' %}',
         });
 </script>
 {% endblock %}

@@ -1,4 +1,4 @@
-angular.module('moolah', ['ngRoute', 'ngResource', 'cgBusy'])
+angular.module('moolah', ['ngRoute', 'ngResource', 'cgBusy', 'chart.js'])
     .config(['$httpProvider', '$routeProvider', '$resourceProvider', 'STATIC_URL', function($httpProvider, $routeProvider, $resourceProvider, STATIC_URL) {
 
         var toStatic = function(i) {
