@@ -1,6 +1,9 @@
+from datetime import timedelta
+
 from rest_framework import views, response
 
 from tracking.models import Rate, Transaction
+from moolah.utils import get_timestamp
 
 
 class SummaryView(views.APIView):
@@ -17,25 +20,23 @@ class SummaryView(views.APIView):
 
 
 class DailyTransactionReportView(views.APIView):
+    def _days_before_today(self, n):
+        return get_timestamp() - timedelta(n)
+
     def get(self, request):
         t = Transaction.objects
-        labels = []
-        data = []
-        number_format_dict = {'0': 'Today',
-                              '1': 'Yesterday',
-                              '2': '2 days ago',
-                              '3': '3 days ago',
-                              '4': '4 days ago',
-                              '5': '5 days ago',
-                              '6': '6 days ago',
-                              '7': '7 days ago'}
-        for n in range(7):
-            labels.append(number_format_dict.get(str(n)))
-            if n is 0:          # lol...
-                data.append(t.today().total())
-            else:
-                data.append(t.days_ago(n).total())
+        today = get_timestamp()
+        labels = ['Monday',
+                  'Tuesday',
+                  'Wednesday',
+                  'Thursday',
+                  'Friday',
+                  'Saturday',
+                  'Sunday']
+        this_week = []
+        last_week = []
 
         return response.Response({'labels': labels,
-                                  'data': [data],
-                                  'series': ['This Week']})
+                                  'data': [this_week,
+                                           last_week],
+                                  'series': ['This Week', 'Last Week']})
