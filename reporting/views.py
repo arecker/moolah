@@ -47,3 +47,14 @@ class DailyTransactionReportView(views.APIView):
                                   'data': [this_week,
                                            last_week],
                                   'series': ['This Week', 'Last Week']})
+
+
+class YearlySavingReflectionReportView(views.APIView):
+    def get(self, request):
+        hundo_days_ago = get_timestamp() + timedelta(days=-20)
+        dates = [hundo_days_ago + timedelta(days=n) for n in range(100)]
+        data = [Transaction.objects.date(d).total() for d in dates]
+        labels = [str(n) for n in range(100, -1, -1)]
+        return response.Response({'labels': labels,
+                                  'data': [data],
+                                  'series': []})

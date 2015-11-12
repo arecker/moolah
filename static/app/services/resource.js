@@ -14,6 +14,9 @@ angular.module('moolah')
             },
             dailyTransactionReport: function() {
                 return buildGet('dailyTransaction');
+            },
+            yearlySavingDaily: function() {
+                return buildGet('yearlySavingsDaily');
             }
         };
     }])
