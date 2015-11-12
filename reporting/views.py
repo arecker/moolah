@@ -68,7 +68,7 @@ class RateBreakdownReportView(views.APIView):
         data = []
         labels = []
         for rate in Rate.objects.all():
-            data.append(rate.amount)
+            data.append(rate.amount_per_day)
             labels.append(rate.description)
         return response.Response({'labels': labels,
                                   'data': data})
