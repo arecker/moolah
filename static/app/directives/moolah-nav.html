@@ -17,6 +17,8 @@
     <div class="collapse navbar-collapse"
          id="moolah-nav">
       <ul class="nav navbar-nav">
+        <li ng-class="{'active': navController.isActive('/')}"><a href="/#/">Dashboard</a></li>
+        <li ng-class="{'active': navController.isActive('/graphs')}"><a href="/#/graphs">Graphs</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">

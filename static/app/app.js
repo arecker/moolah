@@ -15,5 +15,11 @@ angular.module('moolah', ['ngRoute', 'ngResource', 'cgBusy', 'chart.js'])
                 templateUrl: toStatic('app/views/dashboard.html'),
                 controller: 'DashboardController',
                 controllerAs: 'dashboardCtrl'
+            })
+
+            .when('/graphs', {
+                templateUrl: toStatic('app/views/graphs.html'),
+                controller: 'GraphsController',
+                controllerAs: 'graphsCtrl'
             });
     }]);
