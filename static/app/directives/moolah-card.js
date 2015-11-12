@@ -5,7 +5,9 @@ angular.module('moolah')
         self.showAdd = true;
 
         self.formToggleClick = function() {
-            if (self.formToggle) self.formToggle();
+            if (self.formToggle) {
+                self.formToggle();
+            }
             self.showAdd = !self.showAdd;
         };
     }])

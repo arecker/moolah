@@ -4,7 +4,9 @@ angular.module('moolah')
         var self = this,
 
             refreshTotal = function() {
-                if (self.collection.length === 0) return;
+                if (self.collection.length === 0) {
+                    return;
+                }
                 self.total = self.collection.map(function(o) {
                     return o.amount;
                 }).reduce(function(p, c) {
