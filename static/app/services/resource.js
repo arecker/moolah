@@ -17,6 +17,9 @@ angular.module('moolah')
             },
             yearlySavingDaily: function() {
                 return buildGet('yearlySavingsDaily');
+            },
+            rateBreakdown: function() {
+                return buildGet('rateBreakdown');
             }
         };
     }])

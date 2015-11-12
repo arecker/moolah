@@ -61,3 +61,14 @@ class YearlySavingReflectionReportView(views.APIView):
         return response.Response({'labels': labels,
                                   'data': [data],
                                   'series': []})
+
+
+class RateBreakdownReportView(views.APIView):
+    def get(self, request):
+        data = []
+        labels = []
+        for rate in Rate.objects.all():
+            data.append(rate.amount)
+            labels.append(rate.description)
+        return response.Response({'labels': labels,
+                                  'data': data})

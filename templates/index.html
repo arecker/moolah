@@ -17,6 +17,7 @@
 <script src="{% static 'app/directives/moolah-fun-money.js' %}"></script>
 <script src="{% static 'app/directives/daily-transaction-report.js' %}"></script>
 <script src="{% static 'app/directives/yearly-savings-report.js' %}"></script>
+<script src="{% static 'app/directives/rate-breakdown-report.js' %}"></script>
 <script src="{% static 'app/controllers/dashboard.js' %}"></script>
 <script src="{% static 'app/services/resource.js' %}"></script>
 <script src="{% static 'app/services/static.js' %}"></script>
@@ -30,6 +31,7 @@
             'summary': '{% url 'reports:summary' %}',
             'dailyTransaction': '{% url 'reports:daily_transaction' %}',
             'yearlySavingsDaily': '{% url 'reports:yearly_savings_daily' %}',
+            'rateBreakdown': '{% url 'reports:rate_breakdown' %}',
         });
 </script>
 {% endblock %}
