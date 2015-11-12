@@ -3,7 +3,7 @@ angular.module('moolah')
     .controller('dailyTransactionreportController', ['ReportService', function(ReportService) {
         var self = this;
 
-        self.cardTitle = 'Totals This Week';
+        self.cardTitle = 'This Week';
 
         ReportService.dailyTransactionReport().success(function(d) {
             self.data = d.data;
