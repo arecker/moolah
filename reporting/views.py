@@ -51,10 +51,13 @@ class DailyTransactionReportView(views.APIView):
 
 class YearlySavingReflectionReportView(views.APIView):
     def get(self, request):
-        hundo_days_ago = get_timestamp() + timedelta(days=-20)
-        dates = [hundo_days_ago + timedelta(days=n) for n in range(100)]
-        data = [Transaction.objects.date(d).total() for d in dates]
-        labels = [str(n) for n in range(100, -1, -1)]
+        t = Transaction.objects
+        today = get_timestamp()
+        labels = range(100, -1, -1)
+        year_before_then = timedelta(days=-365)
+        dates = [today + timedelta(days=-n) for n in labels]
+        data = [t.date_range((d + year_before_then), d).total()
+                for d in dates]
         return response.Response({'labels': labels,
                                   'data': [data],
                                   'series': []})
