@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from models import Allowance, Purchase
+from enjoying.models import Allowance, Purchase
 
 class AllowanceAdmin(admin.StackedInline):
     model = Allowance

@@ -4,7 +4,7 @@ from datetime import timedelta, datetime
 from django.db import models
 from dateutil import parser
 
-from utils import to_decimal, get_timestamp
+from moolah.utils import to_decimal, get_timestamp
 
 
 def sanitize_dates(func):

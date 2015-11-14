@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from models import Allowance, Purchase
+from enjoying.models import Allowance, Purchase
 
 
 class PurchaseSerializer(serializers.ModelSerializer):
