@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from models import Transaction, Rate
+from tracking.models import Transaction, Rate
 
 class TransactionSerializer(serializers.ModelSerializer):
 

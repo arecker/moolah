@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
-from models import Transaction, Rate
-from serializers import TransactionSerializer, RateSerializer
+from tracking.models import Transaction, Rate
+from tracking.serializers import TransactionSerializer, RateSerializer
 
 
 class RateViewSet(viewsets.ModelViewSet):

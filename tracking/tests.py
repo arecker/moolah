@@ -2,7 +2,7 @@ from decimal import Decimal
 
 from django.test import TestCase
 
-from models import Rate, Transaction
+from tracking.models import Rate, Transaction
 
 
 def to_decimal(amount, place='0.001'):

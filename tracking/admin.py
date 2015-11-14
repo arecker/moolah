@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import Rate, Transaction
+from tracking.models import Rate, Transaction
 
 
 class RateAdmin(admin.ModelAdmin):

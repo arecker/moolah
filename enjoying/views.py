@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
-from models import Purchase
-from serializers import PurchaseSerializer
+from enjoying.models import Purchase
+from enjoying.serializers import PurchaseSerializer
 
 
 class PurchaseViewSet(viewsets.ModelViewSet):
