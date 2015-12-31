@@ -79,8 +79,7 @@ class TransactionBase(models.Model):
                           unique=True)
 
     description = models.CharField(max_length=120)
-    timestamp = models.DateTimeField(default=get_timestamp,
-                                     editable=False)
+    timestamp = models.DateTimeField(default=get_timestamp)
     amount = models.DecimalField(max_digits=8, decimal_places=2)
 
     def __unicode__(self):
