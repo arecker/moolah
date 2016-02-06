@@ -41,10 +41,9 @@ class PurchaseQuerySet(TransactionBaseQuerySet):
 
     def create_from_allowance(self, allowance):
         date = get_timestamp().strftime("%m/%d/%Y")
-        amount = self.by_allowance(allowance).total() + allowance.amount
         desc = 'Allowance for {name} - {date}'.format(date=date,
                                                       name=allowance.user_name)
-        return Purchase(amount=amount,
+        return Purchase(amount=allowance.amount,
                         description=desc,
                         allowance=allowance).save()
 
