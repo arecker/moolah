@@ -4,6 +4,7 @@ from rest_framework import views, response
 from dateutil.relativedelta import relativedelta, MO
 
 from tracking.models import Rate, Transaction
+from enjoying.models import Purchase
 from moolah.utils import get_timestamp
 
 
@@ -11,11 +12,14 @@ class SummaryView(views.APIView):
     def get(self, request):
         t = Transaction.objects
 
+        balance = Purchase.objects.current_user(request)
+
         data = {'rate': Rate.objects.total(),
                 'day': t.today().total(),
                 'week': t.last_week().total(),
                 'month': t.last_month().total(),
-                'year': t.last_year().total()}
+                'year': t.last_year().total(),
+                'balance': balance.total()}
 
         return response.Response(data)
 
