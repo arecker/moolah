@@ -8,7 +8,7 @@ from tracking.models import Transaction
 
 def send_email_with_export(recipient=None, path=None, body=None):
     body = body or 'Here are your exported transactions'
-    email = EmailMessage('Transaction Export', body, [recipient, ])
+    email = EmailMessage('Transaction Export', body, None, [recipient, ])
     email.attach_file(path)
     email.send()
 
