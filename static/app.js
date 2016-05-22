@@ -39,6 +39,10 @@
 	    };
 	}])
 
+	.factory('Transaction', ['$resource', 'API_URL', function($resource, API_URL) {
+	    return $resource('{}transactions/:id'.format(API_URL));
+	}])
+
 	.controller('moolahNavController', ['$location', 'LOGOUT_URL', 'USER_NAME', function($location, LOGOUT_URL, USER_NAME) {
 	    var self = this;
 
@@ -58,7 +62,19 @@
 	    };
 	}])
 
-	.controller('DashboardController', [function() {
+	.controller('DashboardController', ['Transaction', function(Transaction) {
+
+	    var self = this;
+
+	    Transaction.query().$promise.then(function(d) {
+		self.todaysTransactions = d;
+		var values = d.map(function(i) { return i.amount; });
+		self.todaysTransactionsTotal = values.reduce(function(a, b) {
+		    return Number(a) + Number(b);
+		});
+
+		self.totalIsPositive = self.todaysTransactionsTotal > 0;
+	    });
 
 	}]);
 
