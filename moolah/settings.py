@@ -15,6 +15,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
 
+    'reporting',
     'tracking',
 ]
 
@@ -27,6 +28,8 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'moolah.middleware.TimezoneMiddleware',
 ]
 
 ROOT_URLCONF = 'moolah.urls'

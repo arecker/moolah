@@ -2,9 +2,60 @@
   <div class="col-md-4">
     <div class="panel panel-default shadow-z-4">
       <div class="panel-heading">
+	<div class="panel-title">Summary</div>
+      </div>
+      <div class="panel-body">
+	<div class="table-responsive">
+	  <table class="table">
+	    <tr>
+	      <td><strong>Daily Rate</strong></td>
+	      <td>{{ dashboardCtrl.summary.daily | currency }}</td>
+	    </tr>
+	    <tr>
+	      <td><strong>Today</strong></td>
+	      <td>{{ dashboardCtrl.summary.today | currency }}</td>
+	    </tr>
+	    <tr>
+	      <td><strong>Week</strong></td>
+	      <td>{{ dashboardCtrl.summary.week | currency }}</td>
+	    </tr>
+	    <tr>
+	      <td><strong>Month</strong></td>
+	      <td>{{ dashboardCtrl.summary.month | currency }}</td>
+	    </tr>
+	    <tr>
+	      <td><strong>Year</strong></td>
+	      <td>{{ dashboardCtrl.summary.year | currency }}</td>
+	    </tr>
+	  </table>
+	</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="panel panel-default shadow-z-4">
+      <div class="panel-heading">
 	<h3 class="panel-title">Today's Transactions</h3>
       </div>
       <div class="panel-body">
+	<div class="well well-sm">
+	  <form novalidate>
+	    <div class="form-group">
+	      <label>Description</label>
+	      <input ng-model="dashboardCtrl.newTransaction.description"
+		     type="text"
+		     class="form-control" />
+	    </div>
+	    <div class="form-group">
+	      <label>Amount ($)</label>
+	      <input ng-model="dashboardCtrl.newTransaction.amount"
+		     type="number"
+		     min="0"
+		     class="form-control">
+	    </div>
+	    <button ng-click="dashboardCtrl.submitTransaction()" class="btn btn-success">Add</button>
+	  </form>
+	</div>
 	<div class="table-responsive">
 	  <table class="table">
 	    <tr>
@@ -19,8 +70,55 @@
 	      <td>
 		<strong>Total</strong>
 	      </td>
-	      <td ng-class="{'text-success': addListCtrl.totalIsPositive, 'text-danger': !addlistCtrl.totalIsPositive}">
+	      <td ng-class="{'text-success': dashboardCtrl.totalIsPositive, 'text-danger': !dashboardCtrl.totalIsPositive}">
 		{{ dashboardCtrl.todaysTransactionsTotal | currency }}
+	      </td>
+	    </tr>
+	  </table>
+	</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="panel panel shadow-z-4">
+      <div class="panel-heading">
+	<h3 class="panel-title">Allowance</h3>
+      </div>
+      <div class="panel-body">
+	<div class="well well-sm">
+	  <form novalidate>
+	    <div class="form-group">
+	      <label>Description</label>
+	      <input ng-model="dashboardCtrl.newPurchase.description"
+		     type="text"
+		     class="form-control" />
+	    </div>
+	    <div class="form-group">
+	      <label>Amount ($)</label>
+	      <input ng-model="dashboardCtrl.newPurchase.amount"
+		     type="number"
+		     min="0"
+		     class="form-control">
+	    </div>
+	    <button ng-click="dashboardCtrl.submitPurchase()" class="btn btn-success">Add</button>
+	  </form>
+	</div>
+	<div class="table-responsive">
+	  <table class="table">
+	    <tr>
+	      <th>Description</th>
+	      <th>Amount</th>
+	    </tr>
+	    <tr ng-repeat="obj in dashboardCtrl.purchases">
+	      <td>{{ obj.description }}</td>
+	      <td>{{ obj.amount | currency }}</td>
+	    </tr>
+	    <tr>
+	      <td>
+		<strong>Balance</strong>
+	      </td>
+	      <td ng-class="{'text-success': dashboardCtrl.balanceIsPositive, 'text-danger': !dashboardCtrl.balanceIsPositive}">
+		{{ dashboardCtrl.purchaseBalance | currency }}
 	      </td>
 	    </tr>
 	  </table>

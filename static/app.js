@@ -43,6 +43,22 @@
 	    return $resource('{}transactions/:id'.format(API_URL));
 	}])
 
+	.factory('Purchase', ['$resource', 'API_URL', function($resource, API_URL) {
+	    return $resource('{}purchases/:id'.format(API_URL));
+	}])
+
+	.factory('PurchaseBalance', ['$http', 'API_URL', function($http, API_URL) {
+	    return function() {
+		return $http.get('{}purchases/total/'.format(API_URL));
+	    };
+	}])
+
+	.factory('SummaryReport', ['$http', 'API_URL', function($http, API_URL) {
+	    return function() {
+		return $http.get('{}reports/summary/'.format(API_URL));
+	    };
+	}])
+
 	.controller('moolahNavController', ['$location', 'LOGOUT_URL', 'USER_NAME', function($location, LOGOUT_URL, USER_NAME) {
 	    var self = this;
 
@@ -62,19 +78,56 @@
 	    };
 	}])
 
-	.controller('DashboardController', ['Transaction', function(Transaction) {
+	.controller('DashboardController', ['Purchase', 'PurchaseBalance', 'Transaction', 'SummaryReport', function(Purchase, PurchaseBalance, Transaction, SummaryReport) {
 
 	    var self = this;
 
-	    Transaction.query().$promise.then(function(d) {
-		self.todaysTransactions = d;
-		var values = d.map(function(i) { return i.amount; });
-		self.todaysTransactionsTotal = values.reduce(function(a, b) {
-		    return Number(a) + Number(b);
-		});
+	    self.reloadTransactions = function() {
+		Transaction.query().$promise.then(function(d) {
+		    self.todaysTransactions = d;
+		    var values = d.map(function(i) { return i.amount; });
+		    self.todaysTransactionsTotal = values.reduce(function(a, b) {
+			return Number(a) + Number(b);
+		    }, 0);
 
-		self.totalIsPositive = self.todaysTransactionsTotal > 0;
-	    });
+		    self.totalIsPositive = self.todaysTransactionsTotal > 0;
+		});
+	    };
+
+	    self.reloadPurchases = function() {
+		Purchase.query().$promise.then(function(d) {
+		    self.purchases = d;
+		});
+		PurchaseBalance().then(function(d) {
+		    self.purchaseBalance = d.data.balance;
+		    self.balanceIsPositive = self.purchaseBalance > 0;
+		});
+	    };
+
+	    self.reloadSummary = function() {
+		SummaryReport().then(function(d) {
+		    self.summary = d.data;
+		});
+	    };
+
+	    self.submitTransaction = function() {
+		Transaction.save(self.newTransaction, function() {
+		    self.newTransaction = {};
+		    self.reloadTransactions();
+		    self.reloadSummary();
+		});
+	    };
+
+	    self.submitPurchase = function() {
+		Purchase.save(self.newPurchase, function() {
+		    self.newPurchase = {};
+		    self.reloadPurchases();
+		});
+	    };
+
+	    self.reloadTransactions();
+	    self.reloadSummary();
+	    self.reloadPurchases();
 
 	}]);
 

@@ -8,8 +8,8 @@ class RateAdmin(admin.ModelAdmin):
 
 
 class TransactionAdmin(admin.ModelAdmin):
-    list_display = ('description', 'amount', 'timestamp')
-    list_filter = ('allowance', )
+    list_display = ('description', 'amount', 'allowance', 'timestamp')
+    list_filter = ('allowance',)
 
 
 admin.site.register(Rate, RateAdmin)
