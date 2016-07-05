@@ -7,16 +7,20 @@ RUN apt-get update && apt-get install -y \
     postgresql-client python-psycopg2 \
     gcc supervisor redis-server
 
-RUN mkdir -p /srv/logs
+RUN mkdir -p /srv/logs && mkdir -p /srv/src
 
-RUN mkdir -p /srv/src
-COPY . /srv/src/
-RUN pip install -r /srv/src/requirements.txt
+COPY ./requirements.txt /srv/
 
-COPY ./configs/prod_settings.py /srv/src/moolah/
+RUN pip install -r /srv/requirements.txt
 
 RUN pip install psycopg2 gunicorn django-redis redis celery
 
+COPY . /srv/src/
+
+COPY ./configs/prod_settings.py /srv/src/moolah/
+
 EXPOSE 8000
+
 VOLUME ["/srv/logs/", "/srv/static/"]
+
 ENTRYPOINT ["/srv/src/docker.sh"]
