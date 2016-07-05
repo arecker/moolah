@@ -5,7 +5,7 @@
 	<div class="panel-title">Summary</div>
       </div>
       <div class="panel-body">
-	<div class="table-responsive">
+	<div class="table-responsive" cg-busy="dashboardCtrl.summaryPromise">
 	  <table class="table">
 	    <tr>
 	      <td><strong>Daily Rate</strong></td>
@@ -56,7 +56,7 @@
 	    <button ng-click="dashboardCtrl.submitTransaction()" class="btn btn-success">Add</button>
 	  </form>
 	</div>
-	<div class="table-responsive">
+	<div class="table-responsive" cg-busy="dashboardCtrl.transactionPromise">
 	  <table class="table">
 	    <tr>
 	      <th>Description</th>
@@ -103,7 +103,7 @@
 	    <button ng-click="dashboardCtrl.submitPurchase()" class="btn btn-success">Add</button>
 	  </form>
 	</div>
-	<div class="table-responsive">
+	<div class="table-responsive" cg-busy="dashboardCtrl.allowancePromise">
 	  <table class="table">
 	    <tr>
 	      <th>Description</th>

@@ -12,7 +12,7 @@
 	$.material.init();
     });
 
-    angular.module('moolah', ['ngRoute', 'ngResource', 'chart.js'])
+    angular.module('moolah', ['ngRoute', 'ngResource', 'chart.js', 'cgBusy'])
 
 	.config(['$httpProvider', '$routeProvider', '$resourceProvider', 'STATIC_URL',
 		 function($httpProvider, $routeProvider, $resourceProvider, STATIC_URL) {
@@ -185,7 +185,8 @@
 	    var self = this;
 
 	    self.reloadTransactions = function() {
-		Transaction.query().$promise.then(function(d) {
+		self.transactionPromise = Transaction.query().$promise;
+		self.transactionPromise.then(function(d) {
 		    self.todaysTransactions = d;
 		    var values = d.map(function(i) { return i.amount; });
 		    self.todaysTransactionsTotal = values.reduce(function(a, b) {
@@ -197,7 +198,8 @@
 	    };
 
 	    self.reloadPurchases = function() {
-		Purchase.query().$promise.then(function(d) {
+		self.allowancePromise = Purchase.query().$promise;
+		self.allowancePromise.then(function(d) {
 		    self.purchases = d;
 		});
 		PurchaseBalance().then(function(d) {
@@ -207,7 +209,8 @@
 	    };
 
 	    self.reloadSummary = function() {
-		SummaryReport().then(function(d) {
+		self.summaryPromise = SummaryReport();
+		self.summaryPromise.then(function(d) {
 		    self.summary = d.data;
 		});
 	    };
