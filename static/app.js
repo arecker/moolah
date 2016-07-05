@@ -86,7 +86,7 @@
 	    var self = this;
 
 	    self.logoutUrl = LOGOUT_URL;
-	    self.userName = USER_NAME;
+	    self.userName = USER_NAME || 'Account';
 
 	    self.isActive = function(path) {
 		return $location.path() === path;

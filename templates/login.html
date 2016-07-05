@@ -35,7 +35,7 @@
 	      <input id="{{ form.password.id_for_label }}" type="password" class="form-control" name="password"/>
 	    </div>
 	    <input type="submit" value="login" class="btn btn-default"/>
-	    <input type="hidden" name="next" value="{{ next }}" />
+	    <input type="hidden" name="next" value="{% url 'home' %}" />
 	  </form>
 	</div>
       </div>
