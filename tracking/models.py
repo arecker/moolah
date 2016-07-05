@@ -58,6 +58,11 @@ class Allowance(models.Model):
 
 
 class TransactionQuerySet(models.QuerySet):
+    def date(self, date):
+        return self.filter(timestamp__month=date.month,
+                           timestamp__day=date.day,
+                           timestamp__year=date.year)
+
     def date_range(self, start_of_day, end_of_day):
         query_set = self
 
