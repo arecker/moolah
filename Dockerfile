@@ -17,7 +17,7 @@ RUN pip install psycopg2 gunicorn django-redis redis celery
 
 COPY . /srv/src/
 
-COPY ./configs/prod_settings.py /srv/src/moolah/moolah/
+COPY ./configs/prod_settings.py /srv/src/moolah/
 
 EXPOSE 8000
 
