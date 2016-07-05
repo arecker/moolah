@@ -15,6 +15,8 @@ RUN pip install -r /srv/src/requirements.txt
 
 COPY ./configs/prod_settings.py /srv/src/moolah/
 
+RUN pip install psycopg2 gunicorn django-redis redis celery
+
 EXPOSE 8000
 VOLUME ["/srv/logs/", "/srv/static/"]
 ENTRYPOINT ["/srv/src/docker.sh"]
