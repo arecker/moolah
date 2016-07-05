@@ -76,6 +76,12 @@
 	    };
 	}])
 
+	.factory('WeeklyReport', ['$http', 'API_URL', function($http, API_URL) {
+	    return function() {
+		return $http.get('{}reports/week/'.format(API_URL));
+	    };
+	}])
+
 	.controller('moolahNavController', ['$location', 'LOGOUT_URL', 'USER_NAME', function($location, LOGOUT_URL, USER_NAME) {
 	    var self = this;
 
@@ -151,6 +157,27 @@
 		self.serieis = d.series;
 	    });
 
+	}])
+
+	.directive('weeklyGraph', ['toStatic', function(toStatic) {
+	    return {
+		restrict: 'E',
+		controller: 'WeeklyGraphController',
+		controllerAs: 'reportCtrl',
+		templateUrl: toStatic('views/weekly-graph.html'),
+		bindToController: true,
+		scope: {}
+	    };
+	}]).controller('WeeklyGraphController', ['WeeklyReport', function(WeeklyReport) {
+	    var self = this;
+
+	    self.cardTitle = 'This Week';
+
+	    WeeklyReport().success(function(d) {
+		self.data = d.data;
+		self.labels = d.labels;
+		self.series = d.series;
+	    });
 	}])
 
 	.controller('DashboardController', ['Purchase', 'PurchaseBalance', 'Transaction', 'SummaryReport', function(Purchase, PurchaseBalance, Transaction, SummaryReport) {
