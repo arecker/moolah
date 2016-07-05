@@ -12,7 +12,7 @@
 	$.material.init();
     });
 
-    angular.module('moolah', ['ngRoute', 'ngResource'])
+    angular.module('moolah', ['ngRoute', 'ngResource', 'chart.js'])
 
 	.config(['$httpProvider', '$routeProvider', '$resourceProvider', 'STATIC_URL',
 		 function($httpProvider, $routeProvider, $resourceProvider, STATIC_URL) {
@@ -30,6 +30,11 @@
 			     templateUrl: toStatic('views/dashboard.html'),
 			     controller: 'DashboardController',
 			     controllerAs: 'dashboardCtrl'
+			 })
+			 .when('/reports', {
+			     templateUrl: toStatic('views/reports.html'),
+			     controller: 'ReportsController',
+			     controllerAs: 'reportCtrl'
 			 });
 		 }])
 
@@ -59,6 +64,18 @@
 	    };
 	}])
 
+	.factory('RateBreakdownReport', ['$http', 'API_URL', function($http, API_URL) {
+	    return function() {
+		return $http.get('{}reports/rates/'.format(API_URL));
+	    };
+	}])
+
+	.factory('YearlyReport', ['$http', 'API_URL', function($http, API_URL) {
+	    return function() {
+		return $http.get('{}reports/savings/'.format(API_URL));
+	    };
+	}])
+
 	.controller('moolahNavController', ['$location', 'LOGOUT_URL', 'USER_NAME', function($location, LOGOUT_URL, USER_NAME) {
 	    var self = this;
 
@@ -76,6 +93,64 @@
 		controllerAs: 'navController',
 		templateUrl: toStatic('views/nav.html')
 	    };
+	}])
+
+	.directive('ratePieChart', ['toStatic', function(toStatic) {
+	    return {
+		restrict: 'E',
+		controller: 'RatePieChartController',
+		controllerAs: 'pieChartCtrl',
+		templateUrl: toStatic('views/rate-pie-chart.html'),
+		bindToController: true,
+		scope: {}
+	    };
+	}]).controller('RatePieChartController', ['RateBreakdownReport', function(RateBreakdownReport) {
+	    var self = this;
+
+	    RateBreakdownReport().success(function(d) {
+		self.data = d.data;
+		self.labels = d.labels;
+	    });
+
+	}])
+
+	.directive('yearlySavingsGraph', ['toStatic', function(toStatic) {
+	    return {
+		restrict: 'E',
+		controller: 'YearlySavingsGraphController',
+		controllerAs: 'reportCtrl',
+		templateUrl: toStatic('views/yearly-savings-graph.html'),
+		bindToController: true,
+		scope: {}
+	    };
+	}]).controller('YearlySavingsGraphController', ['YearlyReport', function(YearlyReport) {
+	    var self = this;
+
+	    self.options = {
+		pointDot : false,
+		pointHitDetectionRadius: 0,
+		scaleShowVerticalLines: false,
+		scaleFontSize: 0,
+		tooltipTemplate: function(obj) {
+		    var label = '{} days ago'.format(obj.label),
+			value;
+
+		    if (obj.value < 0) {
+			value = '-${}'.format(obj.value);
+		    } else {
+			value = '${}'.format(obj.value);
+		    }
+
+		    return '{} : {}'.format(label, value);
+		}
+	    };
+
+	    YearlyReport().success(function(d) {
+		self.data = d.data;
+		self.labels = d.labels;
+		self.serieis = d.series;
+	    });
+
 	}])
 
 	.controller('DashboardController', ['Purchase', 'PurchaseBalance', 'Transaction', 'SummaryReport', function(Purchase, PurchaseBalance, Transaction, SummaryReport) {
@@ -129,6 +204,10 @@
 	    self.reloadSummary();
 	    self.reloadPurchases();
 
+	}])
+
+	.controller('ReportsController', [function() {
+	    var self = this;
 	}]);
 
 }(angular, jQuery));
