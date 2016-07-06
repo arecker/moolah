@@ -4,10 +4,6 @@ from django.utils import timezone
 
 from models import Transaction, Rate, Allowance
 
-import logging
-
-logger = logging.getLogger(__name__)
-
 
 def today():
     return timezone.now().strftime('%m/%d/%Y')
@@ -28,8 +24,3 @@ def compute_allowance():
             amount=allowance.amount,
             allowance=allowance
         )
-
-
-@periodic_task(run_every(crontab()), name='test-task', ignore_result=True)
-def test_task():
-    logger.info('Hello from Celery!')
