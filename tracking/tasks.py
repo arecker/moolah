@@ -16,7 +16,7 @@ def compute_rate():
     Transaction.objects.create(description=description, amount=balance)
 
 
-@periodic_task(run_every=(crontab(0, 0, day_of_month='2')), name="compute-allowance", ignore_result=True)
+@periodic_task(run_every=(crontab(0, 0, day_of_month='1')), name="compute-allowance", ignore_result=True)
 def compute_allowance():
     for allowance in Allowance.objects.all():
         Transaction.objects.create(
