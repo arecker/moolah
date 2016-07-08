@@ -24,3 +24,9 @@ def compute_allowance():
             amount=allowance.amount,
             allowance=allowance
         )
+
+
+import logging
+@periodic_task(run_every=crontab(), name="sanity", ignore_result=True)
+def sanity():
+    logging.info('Hello from moolah-celery')
