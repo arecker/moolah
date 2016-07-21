@@ -101,18 +101,18 @@ class ReportViewSet(ViewSet):
         allowance = Allowance.objects.get(user=request.user)
         transactions = Transaction.objects.filter(allowance=allowance)
 
-        this_month = timezone.now()
-        last_month = this_month.replace(month=this_month.month-1)
-        month_before = this_month.replace(month=this_month.month-2)
+        this_month = timezone.now().replace(day=1) + relativedelta(months=1) - relativedelta(days=1)
+        last_month = this_month - relativedelta(months=1)
+        month_before = this_month - relativedelta(months=2)
 
         response = []
 
         for period in [this_month, last_month, month_before]:
             response.append((
                 period.strftime('%B'),
-                transactions.filter(
-                    timestamp__month=period.month,
-                    timestamp__year=period.year
+                transactions.date_range(
+                    start_of_day=None,
+                    end_of_day=period
                 ).total()
             ))
 
