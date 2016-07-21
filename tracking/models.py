@@ -67,13 +67,11 @@ class TransactionQuerySet(models.QuerySet):
         query_set = self
 
         if start_of_day:
-            local_start = start_of_day.astimezone(timezone.get_current_timezone())
-            start_of_day = local_start.replace(hour=0, minute=0, second=59)
+            start_of_day = start_of_day.replace(hour=0, minute=0, second=59)
             query_set = query_set.filter(timestamp__gte=start_of_day)
 
         if end_of_day:
-            local_end = start_of_day.astimezone(timezone.get_current_timezone())
-            end_of_day = local_end.replace(hour=23, minute=59, second=59)
+            end_of_day = end_of_day.replace(hour=23, minute=59, second=59)
             query_set = query_set.filter(timestamp__lte=end_of_day)
 
         return query_set
