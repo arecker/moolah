@@ -1,11 +1,13 @@
-from rest_framework.viewsets import ViewSet
+import collections
+
+from dateutil.relativedelta import MO, relativedelta
+from django.utils import timezone
+from rest_framework.decorators import list_route
 from rest_framework.response import Response
 from rest_framework.reverse import reverse_lazy
-from rest_framework.decorators import list_route
-from dateutil.relativedelta import relativedelta, MO
-from django.utils import timezone
+from rest_framework.viewsets import ViewSet
 
-from tracking.models import Transaction, Rate
+from tracking.models import Allowance, Rate, Transaction
 
 
 class ReportViewSet(ViewSet):
@@ -15,6 +17,7 @@ class ReportViewSet(ViewSet):
             'savings': reverse_lazy('reports-savings', request=self.request),
             'rates': reverse_lazy('reports-rates', request=self.request),
             'week': reverse_lazy('reports-week', request=self.request),
+            'allowance': reverse_lazy('reports-allowance', request=self.request),
         })
 
     @list_route(methods=['get'], url_path='summary')
@@ -92,3 +95,25 @@ class ReportViewSet(ViewSet):
             'labels': labels,
             'data': data
         })
+
+    @list_route(methods=['get'], url_path='allowance')
+    def allowance_balances(self, request, *args, **kwargs):
+        allowance = Allowance.objects.get(user=request.user)
+        transactions = Transaction.objects.filter(allowance=allowance)
+
+        this_month = timezone.now()
+        last_month = this_month - relativedelta(months=1)
+        month_before = this_month - relativedelta(months=2)
+
+        response = []
+
+        for period in [this_month, last_month, month_before]:
+            response.append((
+                period.strftime('%B'),
+                transactions.filter(
+                    timestamp__month=period.month,
+                    timestamp__year=period.year
+                ).total()
+            ))
+
+        return Response(collections.OrderedDict(response))

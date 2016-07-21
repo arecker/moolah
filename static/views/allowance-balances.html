@@ -1,0 +1,12 @@
+<div class="table-responsive" cg-busy="reportCtrl.reportPromise">
+  <table class="table">
+    <thead>
+      <td>Month</td>
+      <td>Ending Balance</td>
+    </thead>
+    <tr ng-repeat="(month, total) in reportCtrl.data">
+      <td><strong>{{ month }}</strong></td>
+      <td>{{ total | currency }}</td>
+    </tr>
+  </table>
+</div>

@@ -82,6 +82,12 @@
 	    };
 	}])
 
+	.factory('AllowanceReport', ['$http', 'API_URL', function($http, API_URL) {
+	    return function() {
+		return $http.get('{}reports/allowance/'.format(API_URL));
+	    };
+	}])
+
 	.controller('moolahNavController', ['$location', 'LOGOUT_URL', 'USER_NAME', function($location, LOGOUT_URL, USER_NAME) {
 	    var self = this;
 
@@ -177,6 +183,25 @@
 		self.data = d.data;
 		self.labels = d.labels;
 		self.series = d.series;
+	    });
+	}])
+
+	.directive('allowanceBalances', ['toStatic', function(toStatic) {
+	    return {
+		restrict: 'E',
+		controller: 'AllowanceBalancesController',
+		controllerAs: 'reportCtrl',
+		templateUrl: toStatic('views/allowance-balances.html'),
+		bindToController: true,
+		scope: {}
+	    };
+	}]).controller('AllowanceBalancesController', ['AllowanceReport', function(AllowanceReport) {
+	    var self = this;
+
+	    self.reportPromise = AllowanceReport();
+
+	    self.reportPromise.success(function(d) {
+		self.data = d;
 	    });
 	}])
 
