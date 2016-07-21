@@ -104,10 +104,11 @@ class ReportViewSet(ViewSet):
         this_month = timezone.now().replace(day=1) + relativedelta(months=1) - relativedelta(days=1)
         last_month = this_month - relativedelta(months=1)
         month_before = this_month - relativedelta(months=2)
+        month_before_before = this_month - relativedelta(months=3)
 
         response = []
 
-        for period in [this_month, last_month, month_before]:
+        for period in [this_month, last_month, month_before, month_before_before]:
             response.append((
                 period.strftime('%B'),
                 transactions.date_range(
