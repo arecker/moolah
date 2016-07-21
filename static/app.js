@@ -120,8 +120,9 @@
 	    var self = this;
 
 	    RateBreakdownReport().success(function(d) {
-		self.data = d.data;
-		self.labels = d.labels;
+		self.income = d.income;
+		self.expense = d.expense;
+		self.total = d.total;
 	    });
 
 	}])

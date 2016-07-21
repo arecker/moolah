@@ -86,14 +86,27 @@ class ReportViewSet(ViewSet):
 
     @list_route(methods=['get'], url_path='rates')
     def rates_breakdown(self, *args, **kwargs):
-        data = []
-        labels = []
-        for rate in Rate.objects.all():
-            data.append(rate.amount_per_day)
-            labels.append(rate.description)
+        rates = Rate.objects.all()
+
+        income = rates.filter(amount_per_day__gt=0)
+        expense = rates.exclude(pk__in=income)
+
         return Response({
-            'labels': labels,
-            'data': data
+            'income': {
+                'labels': income.values_list('description', flat=True),
+                'data': income.values_list('amount_per_day', flat=True)
+            },
+            'expense': {
+                'labels': expense.values_list('description', flat=True),
+                'data': expense.values_list('amount_per_day', flat=True)
+            },
+            'total': {
+                'labels': ['Income', 'Expenses'],
+                'data': [
+                    income.total() or 0,
+                    abs(expense.total() or 0)
+                ]
+            }
         })
 
     @list_route(methods=['get'], url_path='allowance')
