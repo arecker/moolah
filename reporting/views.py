@@ -102,8 +102,8 @@ class ReportViewSet(ViewSet):
         transactions = Transaction.objects.filter(allowance=allowance)
 
         this_month = timezone.now()
-        last_month = this_month - relativedelta(months=1)
-        month_before = this_month - relativedelta(months=2)
+        last_month = this_month.replace(month=this_month.month-1)
+        month_before = this_month.replace(month=this_month.month-2)
 
         response = []
 
