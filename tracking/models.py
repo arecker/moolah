@@ -82,7 +82,10 @@ class TransactionQuerySet(models.QuerySet):
         return self.date_range(start, end)
 
     def today(self):
-        return self.date(timezone.now())
+        now = timezone.localtime(timezone.now())
+        beginning = now.replace(hour=0, minute=0, second=0)
+        end = now.replace(hour=23, minute=59, second=59)
+        return self.filter(timestamp__range=[beginning, end])
 
     def last_week(self):
         return self.days_from_today(7)
