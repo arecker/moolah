@@ -1,5 +1,35 @@
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-6">
+    <div class="panel panel-default shadow-z-4">
+      <div class="panel-heading">
+	<div class="panel-title">Add Purchase</div>
+      </div>
+      <div class="panel-body">
+	<form novalidate>
+	  <div class="form-group form-group-sm">
+	    <label for="newDescription">Description</label>
+	    <input ng-model="dashboardCtrl.newTransaction.description" type="text" class="form-control input-sm" id="newDescription"/>
+	  </div>
+	  <div class="row">
+	    <div class="col-md-6">
+	      <div class="form-group form-group-sm">
+		<label for="newAmount">Amount ($)</label>
+		<input ng-model="dashboardCtrl.newTransaction.amount" type="text" id="newAmount" class="form-control"/>
+	      </div>
+	    </div>
+	    <div class="col-md-6">
+	      <div class="form-group form-group-sm">
+		<label for="newAllowance">Is Allowance Money</label>
+		<input type="checkbox" ng-model="dashboardCtrl.newTransaction.allowance" id="newAllowance" class="form-control"/>
+	      </div>
+	    </div>
+	  </div>
+	</form>
+	<button class="btn btn-success btn-sm" type="submit" ng-click="dashboardCtrl.submitTransaction()">Submit</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
     <div class="panel panel-default shadow-z-4">
       <div class="panel-heading">
 	<div class="panel-title">Summary</div>
@@ -32,30 +62,14 @@
       </div>
     </div>
   </div>
-  <div class="col-md-4">
+</div>
+<div class="row">
+  <div class="col-md-6">
     <div class="panel panel-default shadow-z-4">
       <div class="panel-heading">
 	<h3 class="panel-title">Today's Transactions</h3>
       </div>
       <div class="panel-body">
-	<div class="well well-sm">
-	  <form novalidate>
-	    <div class="form-group">
-	      <label>Description</label>
-	      <input ng-model="dashboardCtrl.newTransaction.description"
-		     type="text"
-		     class="form-control" />
-	    </div>
-	    <div class="form-group">
-	      <label>Amount ($)</label>
-	      <input ng-model="dashboardCtrl.newTransaction.amount"
-		     type="number"
-		     min="0"
-		     class="form-control">
-	    </div>
-	    <button ng-click="dashboardCtrl.submitTransaction()" class="btn btn-success">Add</button>
-	  </form>
-	</div>
 	<div class="table-responsive" cg-busy="dashboardCtrl.transactionPromise">
 	  <table class="table">
 	    <tr>
@@ -79,30 +93,12 @@
       </div>
     </div>
   </div>
-  <div class="col-md-4">
+  <div class="col-md-6">
     <div class="panel panel shadow-z-4">
       <div class="panel-heading">
 	<h3 class="panel-title">Allowance</h3>
       </div>
       <div class="panel-body">
-	<div class="well well-sm">
-	  <form novalidate>
-	    <div class="form-group">
-	      <label>Description</label>
-	      <input ng-model="dashboardCtrl.newPurchase.description"
-		     type="text"
-		     class="form-control" />
-	    </div>
-	    <div class="form-group">
-	      <label>Amount ($)</label>
-	      <input ng-model="dashboardCtrl.newPurchase.amount"
-		     type="number"
-		     min="0"
-		     class="form-control">
-	    </div>
-	    <button ng-click="dashboardCtrl.submitPurchase()" class="btn btn-success">Add</button>
-	  </form>
-	</div>
 	<div class="table-responsive" cg-busy="dashboardCtrl.allowancePromise">
 	  <table class="table">
 	    <tr>

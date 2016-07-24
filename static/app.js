@@ -242,17 +242,22 @@
 	    };
 
 	    self.submitTransaction = function() {
-		Transaction.save(self.newTransaction, function() {
-		    self.newTransaction = {};
-		    self.reloadTransactions();
-		    self.reloadSummary();
-		});
-	    };
+		var svc;
 
-	    self.submitPurchase = function() {
-		Purchase.save(self.newPurchase, function() {
-		    self.newPurchase = {};
-		    self.reloadPurchases();
+		if (self.newTransaction.allowance) {
+		    svc = Purchase;
+		} else {
+		    svc = Transaction;
+		}
+
+		svc.save(self.newTransaction, function() {
+		    if (self.newTransaction.allowance) {
+			self.reloadPurchases();
+		    } else {
+			self.reloadTransactions();
+			self.reloadSummary();
+		    }
+		    self.newTransaction = {};
 		});
 	    };
 
