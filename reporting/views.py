@@ -174,11 +174,10 @@ class ReportViewSet(ViewSet):
         ])
 
         for t in transactions.select_related('allowance'):
-            writer.writerow([
-                t.timestamp,
-                t.description,
-                t.amount,
-                user_allowance_map.get(t.allowance.pk, '')
-            ])
-
+            row = [t.timestamp, t.description, t.amount]
+            if t.allowance:
+                row.append(user_allowance_map.get(t.allowance.pk, 'unknown'))
+            else:
+                t.append('none')
+            writer.writerow(row)
         return response
