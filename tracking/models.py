@@ -11,24 +11,21 @@ from django.utils import timezone
 
 class RateQuerySet(models.QuerySet):
     def total(self):
-        return self.aggregate(models.Sum('amount_per_day'))['amount_per_day__sum']
+        return self.aggregate(models.Sum('amount_per_day'))[
+            'amount_per_day__sum']
 
 
 class Rate(models.Model):
     objects = RateQuerySet.as_manager()
 
-    id = models.UUIDField(primary_key=True,
-                          editable=False,
-                          default=uuid4,
-                          unique=True)
+    id = models.UUIDField(
+        primary_key=True, editable=False, default=uuid4, unique=True)
 
     description = models.CharField(max_length=120)
     amount = models.DecimalField(max_digits=8, decimal_places=2)
     days = models.PositiveIntegerField(validators=[MinValueValidator(1)])
-    amount_per_day = models.DecimalField(max_digits=8,
-                                         decimal_places=3,
-                                         editable=False,
-                                         blank=True)
+    amount_per_day = models.DecimalField(
+        max_digits=8, decimal_places=3, editable=False, blank=True)
 
     def rount_amount_per_day(self, place='0.01'):
         return Decimal(self.amount_per_day).quantize(Decimal(place))
@@ -38,14 +35,13 @@ class Rate(models.Model):
         return super(Rate, self).save(*args, **kwargs)
 
     def __unicode__(self):
-        return '{0} ({1})'.format(self.description, self.rount_amount_per_day())
+        return '{0} ({1})'.format(self.description,
+                                  self.rount_amount_per_day())
 
 
 class Allowance(models.Model):
-    id = models.UUIDField(primary_key=True,
-                          editable=False,
-                          default=uuid4,
-                          unique=True)
+    id = models.UUIDField(
+        primary_key=True, editable=False, default=uuid4, unique=True)
 
     user = models.OneToOneField(User)
     amount = models.DecimalField(max_digits=8, decimal_places=2)
@@ -59,9 +55,10 @@ class Allowance(models.Model):
 
 class TransactionQuerySet(models.QuerySet):
     def date(self, date):
-        return self.filter(timestamp__month=date.month,
-                           timestamp__day=date.day,
-                           timestamp__year=date.year)
+        return self.filter(
+            timestamp__month=date.month,
+            timestamp__day=date.day,
+            timestamp__year=date.year)
 
     def date_range(self, start_of_day, end_of_day):
         query_set = self
@@ -106,10 +103,8 @@ class TransactionQuerySet(models.QuerySet):
 class Transaction(models.Model):
     objects = TransactionQuerySet.as_manager()
 
-    id = models.UUIDField(primary_key=True,
-                          editable=False,
-                          default=uuid4,
-                          unique=True)
+    id = models.UUIDField(
+        primary_key=True, editable=False, default=uuid4, unique=True)
 
     description = models.CharField(max_length=120)
     timestamp = models.DateTimeField(default=timezone.now)
