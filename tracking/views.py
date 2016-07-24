@@ -6,15 +6,16 @@ from models import Allowance, Transaction
 from serializers import TransactionSerializer, AllowanceTransactionSerializer
 
 
-transactions = Transaction.objects
-
-
 class TransactionViewSet(viewsets.ModelViewSet):
     '''
     Transactions not associated with an allowance
     '''
     queryset = Transaction.objects.without_allowance().today()
     serializer_class = TransactionSerializer
+
+    def get_queryset(self, *args, **kwargs):
+        return self.queryset.today()
+
 
 class AllowanceTransactionViewSet(viewsets.ModelViewSet):
     '''
@@ -27,12 +28,11 @@ class AllowanceTransactionViewSet(viewsets.ModelViewSet):
         return Allowance.objects.get(user=self.request.user)
 
     def get_queryset(self, *args, **kwargs):
-        qs = super(AllowanceTransactionViewSet, self).get_queryset(*args, **kwargs)
+        qs = super(AllowanceTransactionViewSet, self).get_queryset(*args, **
+                                                                   kwargs)
         return qs.filter(allowance=self.get_users_allowance()).last_month()
 
     @list_route(methods=['get'])
     def total(self, *args, **kwargs):
         everything = self.queryset.filter(allowance=self.get_users_allowance())
-        return Response({
-            'balance': everything.total()
-        })
+        return Response({'balance': everything.total()})
