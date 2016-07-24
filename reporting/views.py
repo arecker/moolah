@@ -167,7 +167,7 @@ class ReportViewSet(ViewSet):
         response['Content-Disposition'] = 'attachment; filename="export.csv"'
 
         writer = csv.writer(response)
-        writer.writerow(['Date', 'Description', 'Amount', 'User'])
+        writer.writerow(['Date', 'Description', 'Amount', 'Alllowance'])
 
         user_allowance_map = dict([
             (a.pk, a.user.username) for a in Allowance.objects.all()
