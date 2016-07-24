@@ -9,7 +9,7 @@
     }
 
     jQuery(document).ready(function() {
-	$.material.init();
+	jQuery.material.init();
     });
 
     angular.module('moolah', ['ngRoute', 'ngResource', 'chart.js', 'cgBusy'])
