@@ -178,6 +178,6 @@ class ReportViewSet(ViewSet):
             if t.allowance:
                 row.append(user_allowance_map.get(t.allowance.pk, 'unknown'))
             else:
-                t.append('none')
+                row.append('none')
             writer.writerow(row)
         return response
