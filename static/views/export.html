@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="panel panel-default shadow-z-4">
+      <div class="panel-heading">
+	<div class="panel-title">Export Transactions</div>
+      </div>
+      <div class="panel-body">
+	<form novalidate>
+	  <div class="row">
+	    <div class="col-md-6">
+	      <div class="form-group">
+		<label for="exportStartDate">Start Date</label>
+		<input ng-model="exportCtrl.filters.startDate" type="date" class="form-control" id="exportStartDate"/>
+	      </div>
+	    </div>
+	    <div class="col-md-6">
+	      <div class="form-group">
+		<label for="exportEndDate">End Date</label>
+		<input ng-model="exportCtrl.filters.endDate" type="date" class="form-control" id="exportEndDate"/>
+	      </div>
+	    </div>
+	  </div>
+	  <div class="row">
+	    <div class="col-md-6">
+	      <div class="form-group">
+		<label for="exportNegative">Negative Amounts Only</label>
+		<input ng-model="exportCtrl.filters.negativeOnly" type="checkbox" class="form-control" id="exportNegative"/>
+	      </div>
+	    </div>
+	    <div class="col-md-6">
+	      <div class="form-group">
+		<label class="radio-inline">
+		  <input type="radio" id="inlineRadio1" ng-model="exportCtrl.filters.transactionType" value="b"> Both
+		</label>
+		<label class="radio-inline">
+		  <input type="radio" id="inlineRadio2" ng-model="exportCtrl.filters.transactionType" value="a"> Allowance
+		</label>
+		<label class="radio-inline">
+		  <input type="radio" id="inlineRadio3" ng-model="exportCtrl.filters.transactionType" value="n"> Non-allowance
+		</label>
+	      </div>
+	    </div>
+	  </div>
+	</form>
+	<button class="btn btn-success" type="submit" ng-click="exportCtrl.goGoGadgetExport()">Export</button>
+      </div>
+    </div>
+  </div>
+</div>

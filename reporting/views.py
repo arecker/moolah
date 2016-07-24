@@ -1,7 +1,10 @@
 import collections
+import csv
 
 from dateutil.relativedelta import MO, relativedelta
+from dateutil import parser
 from django.utils import timezone
+from django.http import HttpResponse
 from rest_framework.decorators import list_route
 from rest_framework.response import Response
 from rest_framework.reverse import reverse_lazy
@@ -18,6 +21,7 @@ class ReportViewSet(ViewSet):
             'rates': reverse_lazy('reports-rates', request=self.request),
             'week': reverse_lazy('reports-week', request=self.request),
             'allowance': reverse_lazy('reports-allowance', request=self.request),
+            'export': reverse_lazy('reports-export', request=self.request),
         })
 
     @list_route(methods=['get'], url_path='summary')
@@ -131,3 +135,50 @@ class ReportViewSet(ViewSet):
             ))
 
         return Response(collections.OrderedDict(response))
+
+    @list_route(methods=['post'], url_path='export')
+    def export(self, request, *args, **kwargs):
+        transactions = Transaction.objects.all()
+
+        startDate = request.data.get('startDate', None)
+        if startDate:
+            startDate = parser.parse(startDate)
+            startDate = timezone.make_aware(timezone.make_naive(startDate))
+            transactions = transactions.filter(timestamp__gte=startDate)
+
+        endDate = request.data.get('endDate', None)
+        if endDate:
+            endDate = parser.parse(endDate)
+            endDate = timezone.make_aware(timezone.make_naive(endDate))
+            transactions = transactions.filter(timestamp__lte=endDate)
+
+        if request.data.get('negativeOnly', False):
+            transactions = transactions.filter(amount__lt=0)
+
+        transType = request.data.get('transactionType', None)
+        if transType == 'b':
+            pass
+        elif transType == 'a':
+            transactions = transactions.with_allowance()
+        elif transType == 'n':
+            transactions = transactions.without_allowance()
+
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="export.csv"'
+
+        writer = csv.writer(response)
+        writer.writerow(['Date', 'Description', 'Amount', 'User'])
+
+        user_allowance_map = dict([
+            (a.pk, a.user.username) for a in Allowance.objects.all()
+        ])
+
+        for t in transactions.select_related('allowance'):
+            writer.writerow([
+                t.timestamp,
+                t.description,
+                t.amount,
+                user_allowance_map.get(t.allowance.pk, '')
+            ])
+
+        return response

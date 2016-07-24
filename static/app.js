@@ -35,6 +35,11 @@
 			     templateUrl: toStatic('views/reports.html'),
 			     controller: 'ReportsController',
 			     controllerAs: 'reportCtrl'
+			 })
+			 .when('/export', {
+			     templateUrl: toStatic('views/export.html'),
+			     controller: 'ExportController',
+			     controllerAs: 'exportCtrl'
 			 });
 		 }])
 
@@ -269,6 +274,32 @@
 
 	.controller('ReportsController', [function() {
 	    var self = this;
+	}])
+
+	.controller('ExportController', ['$http', 'API_URL', function($http, API_URL) {
+	    var self = this;
+
+	    var defaultFilters = function() {
+		self.filters = {
+		    transactionType: 'b'
+		};
+	    };
+
+	    defaultFilters();
+
+	    self.goGoGadgetExport = function() {
+		$http
+		    .post('{}reports/export/'.format(API_URL), self.filters)
+		    .success(function(data, status, headers, config) {
+			var anchor = angular.element('<a/>');
+			anchor.attr({
+			    href: 'data:attachment/csv;charset=utf-8,' + encodeURI(data),
+			    target: '_blank',
+			    download: 'export.csv'
+			})[0].click();
+
+		    });
+	    };
 	}]);
 
 }(angular, jQuery));
