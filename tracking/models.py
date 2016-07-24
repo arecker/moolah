@@ -1,11 +1,12 @@
 from __future__ import unicode_literals
 
-from uuid import uuid4
+import datetime
 from decimal import Decimal
+from uuid import uuid4
 
-from django.db import models
-from django.core.validators import MinValueValidator
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator
+from django.db import models
 from django.utils import timezone
 
 
@@ -79,7 +80,11 @@ class TransactionQuerySet(models.QuerySet):
         return self.date_range(start, end)
 
     def today(self):
-        return self.date(timezone.now())
+        now = timezone.now()
+        now = datetime.datetime(now.year, now.month, now.day)
+        tomorrow = now + datetime.timedelta(days=1)
+        now, tomorrow = [timezone.make_aware(d) for d in [now, tomorrow]]
+        return self.filter(timestamp__gte=now, timestamp__lt=tomorrow)
 
     def last_week(self):
         return self.days_from_today(7)
