@@ -10,7 +10,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
     '''
     Transactions not associated with an allowance
     '''
-    queryset = Transaction.objects.without_allowance().today()
+    queryset = Transaction.objects.without_allowance()
     serializer_class = TransactionSerializer
 
     def get_queryset(self, *args, **kwargs):
