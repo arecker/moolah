@@ -150,7 +150,6 @@ class ReportViewSet(ViewSet):
             'date_range': date_range.days,
             'largest_positive': largest.__unicode__(),
             'largest_negative': smallest.__unicode__(),
-            'table_size': Transaction.objects.db_table_size()
         })
 
     @list_route(methods=['post'], url_path='export')

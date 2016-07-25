@@ -105,19 +105,6 @@ class TransactionQuerySet(models.QuerySet):
     def total(self):
         return self.aggregate(models.Sum('amount'))['amount__sum'] or 0
 
-    def db_table_size(self):
-        conn = connections['default']
-        table = self.model._meta.db_table
-        if conn.vendor == 'postgresql':
-            sql = "SELECT pg_size_pretty(pg_total_relation_size('{}'));".format(table)
-        else:
-            return '({} not supported)'.format(conn.vendor)
-
-        with conn.cursor() as c:
-            res = c.execute(sql)
-            if res:
-                return res.fetchall()
-
 
 class Transaction(models.Model):
     objects = TransactionQuerySet.as_manager()
