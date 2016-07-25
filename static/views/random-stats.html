@@ -1,0 +1,20 @@
+<div class="table-responsive" cg-busy="reportCtrl.reportPromise">
+  <table class="table">
+    <tr>
+      <td>Total Transactions</td>
+      <td>{{ reportCtrl.data.total_no_of_trans }}</td>
+    </tr>
+    <tr>
+      <td>Days using Moolah</td>
+      <td>{{ reportCtrl.data.date_range }}</td>
+    </tr>
+    <tr>
+      <td>Largest Positive Transaction</td>
+      <td>{{ reportCtrl.data.largest_positive }}</td>
+    </tr>
+    <tr>
+      <td>Largest Negative Transaction</td>
+      <td>{{ reportCtrl.data.largest_negative }}</td>
+    </tr>
+  </table>
+</div>

@@ -93,6 +93,12 @@
 	    };
 	}])
 
+	.factory('StatsReport', ['$http', 'API_URL', function($http, API_URL) {
+	    return function() {
+		return $http.get('{}reports/stats/'.format(API_URL));
+	    };
+	}])
+
 	.controller('moolahNavController', ['$location', 'LOGOUT_URL', 'USER_NAME', function($location, LOGOUT_URL, USER_NAME) {
 	    var self = this;
 
@@ -205,6 +211,25 @@
 	    var self = this;
 
 	    self.reportPromise = AllowanceReport();
+
+	    self.reportPromise.success(function(d) {
+		self.data = d;
+	    });
+	}])
+
+	.directive('randomStats', ['toStatic', function(toStatic) {
+	    return {
+		restrict: 'E',
+		controller: 'RandomStatsController',
+		controllerAs: 'reportCtrl',
+		templateUrl: toStatic('views/random-stats.html'),
+		bindToController: true,
+		scope: {}
+	    };
+	}]).controller('RandomStatsController', ['StatsReport', function(StatsReport) {
+	    var self = this;
+
+	    self.reportPromise = StatsReport();
 
 	    self.reportPromise.success(function(d) {
 		self.data = d;

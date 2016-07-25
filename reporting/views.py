@@ -16,12 +16,13 @@ from tracking.models import Allowance, Rate, Transaction
 class ReportViewSet(ViewSet):
     def list(self, *args, **kwargs):
         return Response({
-            'summary': reverse_lazy('reports-summary', request=self.request),
-            'savings': reverse_lazy('reports-savings', request=self.request),
-            'rates': reverse_lazy('reports-rates', request=self.request),
-            'week': reverse_lazy('reports-week', request=self.request),
             'allowance': reverse_lazy('reports-allowance', request=self.request),
             'export': reverse_lazy('reports-export', request=self.request),
+            'rates': reverse_lazy('reports-rates', request=self.request),
+            'savings': reverse_lazy('reports-savings', request=self.request),
+            'stats': reverse_lazy('reports-stats', request=self.request),
+            'summary': reverse_lazy('reports-summary', request=self.request),
+            'week': reverse_lazy('reports-week', request=self.request),
         })
 
     @list_route(methods=['get'], url_path='summary')
@@ -135,6 +136,21 @@ class ReportViewSet(ViewSet):
             ))
 
         return Response(collections.OrderedDict(response))
+
+    @list_route(methods=['get'], url_path='stats')
+    def stats(self, request, *args, **kwargs):
+        transactions = Transaction.objects.order_by('-timestamp')
+        date_range = transactions.first().timestamp - transactions.last().timestamp
+
+        transactions = Transaction.objects.order_by('amount')
+        smallest, largest = transactions.first(), transactions.last()
+
+        return Response({
+            'total_no_of_trans': Transaction.objects.count(),
+            'date_range': date_range.days,
+            'largest_positive': largest.__unicode__(),
+            'largest_negative': smallest.__unicode__(),
+        })
 
     @list_route(methods=['post'], url_path='export')
     def export(self, request, *args, **kwargs):
