@@ -114,7 +114,9 @@ class TransactionQuerySet(models.QuerySet):
             return '({} not supported)'.format(conn.vendor)
 
         with conn.cursor() as c:
-            return c.execute(sql).fetchall()
+            res = c.execute(sql)
+            if res:
+                return res.fetchall()
 
 
 class Transaction(models.Model):
