@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils import timezone
+from django.db import connections
 
 
 class RateQuerySet(models.QuerySet):
@@ -103,6 +104,17 @@ class TransactionQuerySet(models.QuerySet):
 
     def total(self):
         return self.aggregate(models.Sum('amount'))['amount__sum'] or 0
+
+    def db_table_size(self):
+        conn = connections['default']
+        table = self.model._meta.db_table
+        if conn.vendor == 'postgresql':
+            sql = "SELECT pg_size_pretty(pg_total_relation_size('{}'));".format(table)
+        else:
+            return '({} not supported)'.format(conn.vendor)
+
+        with conn.cursor() as c:
+            return c.execute(sql).fetchone()[0]
 
 
 class Transaction(models.Model):
