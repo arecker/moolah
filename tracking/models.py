@@ -80,7 +80,7 @@ class TransactionQuerySet(models.QuerySet):
         return self.date_range(start, end)
 
     def today(self):
-        now = timezone.now()
+        now = timezone.localtime(timezone.now())
         now = datetime.datetime(now.year, now.month, now.day)
         tomorrow = now + datetime.timedelta(days=1)
         now, tomorrow = [timezone.make_aware(d) for d in [now, tomorrow]]
