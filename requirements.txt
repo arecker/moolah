@@ -5,3 +5,7 @@ djangorestframework==3.3.3
 python-dateutil==2.5.3
 pytz==2016.4
 gunicorn==19.6.0
+psycopg2==2.6.1
+django-redis==4.4.1
+redis==2.10.5
+django-celery-email==1.1.4
