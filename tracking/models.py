@@ -8,6 +8,9 @@ from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils import timezone
+from recurrence.fields import RecurrenceField
+
+from fields import UniqueBooleanField
 
 
 class RateQuerySet(models.QuerySet):
@@ -36,7 +39,24 @@ class Rate(models.Model):
         max_digits=8, decimal_places=3, editable=False, blank=True)
 
     active = models.BooleanField(default=True)
-    transient = models.BooleanField(default=False)
+    transient = models.BooleanField(
+        default=False,
+        help_text=(
+            'This option is for rates that simply reallocate money within your budget.  '
+            'If the rate reflects money physically leaving your account, leave this unchecked.'
+        )
+    )
+
+    primary_income = UniqueBooleanField(
+        default=False,
+        help_text=(
+            'Check this if for the rate that is your primary income.  '
+            'This is only used in the paycheck explorer report.  '
+            'Only one is allowed.'
+        )
+    )
+
+    recurrences = RecurrenceField(null=True, blank=True)
 
     def rount_amount_per_day(self, place='0.01'):
         return Decimal(self.amount_per_day).quantize(Decimal(place))
