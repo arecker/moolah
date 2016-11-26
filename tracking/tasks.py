@@ -11,7 +11,7 @@ def today():
 
 @periodic_task(run_every=(crontab(minute=0, hour=0)), name="compute-rate", ignore_result=True)
 def compute_rate():
-    balance = Rate.objects.all().total()
+    balance = Rate.objects.total()
     description = 'Rate Balance for {}'.format(today())
     Transaction.objects.create(description=description, amount=balance)
 

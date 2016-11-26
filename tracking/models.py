@@ -8,13 +8,16 @@ from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils import timezone
-from django.db import connections
 
 
 class RateQuerySet(models.QuerySet):
+    def active(self):
+        return self.filter(active=True)
+
     def total(self):
-        return self.aggregate(models.Sum('amount_per_day'))[
-            'amount_per_day__sum']
+        return self.active().aggregate(
+            models.Sum('amount_per_day')
+        )['amount_per_day__sum']
 
 
 class Rate(models.Model):
@@ -28,6 +31,7 @@ class Rate(models.Model):
     days = models.PositiveIntegerField(validators=[MinValueValidator(1)])
     amount_per_day = models.DecimalField(
         max_digits=8, decimal_places=3, editable=False, blank=True)
+    active = models.BooleanField(default=True)
 
     def rount_amount_per_day(self, place='0.01'):
         return Decimal(self.amount_per_day).quantize(Decimal(place))
