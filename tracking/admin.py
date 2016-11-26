@@ -4,8 +4,8 @@ from models import (Rate, Allowance, Transaction)
 
 
 class RateAdmin(admin.ModelAdmin):
-    list_display = ('description', 'active', 'amount_per_day', 'amount', 'days')
-    list_filter = ('active',)
+    list_display = ('description', 'active', 'transient', 'amount_per_day', 'amount', 'days')
+    list_filter = ('active', 'transient')
 
 
 class TransactionAdmin(admin.ModelAdmin):

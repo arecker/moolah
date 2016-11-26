@@ -11,6 +11,9 @@ from django.utils import timezone
 
 
 class RateQuerySet(models.QuerySet):
+    def intransient(self):
+        return self.filter(transient=False)
+
     def active(self):
         return self.filter(active=True)
 
@@ -31,7 +34,9 @@ class Rate(models.Model):
     days = models.PositiveIntegerField(validators=[MinValueValidator(1)])
     amount_per_day = models.DecimalField(
         max_digits=8, decimal_places=3, editable=False, blank=True)
+
     active = models.BooleanField(default=True)
+    transient = models.BooleanField(default=False)
 
     def rount_amount_per_day(self, place='0.01'):
         return Decimal(self.amount_per_day).quantize(Decimal(place))
