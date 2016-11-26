@@ -82,8 +82,3 @@ REST_FRAMEWORK = {
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ),
 }
-
-try:
-    from prod_settings import *
-except ImportError:
-    pass
