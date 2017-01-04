@@ -2,9 +2,6 @@
 #+STARTUP: indent
 
 * Docker
-:PROPERTIES:
-:header-args: :var MOOLAH_DB_PASS="postgrespassword" MOOLAH_SECRET_KEY="lol-so-secret" MOOLAH_HOST="moolah.local" MOOLAH_PUBLIC_PORT="80"
-:END:
 
 First, fill out the =header-args= of this section to taste.  Next,
 start a postgres and redis container.
@@ -16,23 +13,6 @@ start a postgres and redis container.
          -d postgres
   docker run --name moolah-redis -d redis
 #+END_SRC
-
-Start a gunicorn container.  Be sure to expose its port.
-
-#+BEGIN_SRC sh
-  docker run \
-         --name moolah-gunicorn \
-         -e HOST="$MOOLAH_HOST" \
-         -e DB_PASS="$MOOLAH_DB_PASS" \
-         -e SECRET_KEY="$MOOLAH_SECRET_KEY" \
-         --link moolah-redis:redis \
-         --link moolah-db:db \
-         --expose 8000 \
-         -d arecker/moolah:latest gunicorn
-#+END_SRC
-
-#+RESULTS:
-: 0d14678f03803849a51816e9b896625b91486c6de33b3023e23bebee2aabe770
 
 Start a celery container.
 
@@ -47,23 +27,26 @@ Start a celery container.
          -d arecker/moolah:latest celery
 #+END_SRC
 
-#+RESULTS:
-: 8b7ad3175ecb8023c1dbf8056d2993403baa85014aa8f24d7a2111cefea31e72
-
-Lastly, start a public nginx container.
+Start a gunicorn container.  Be sure to expose its port.
 
 #+BEGIN_SRC sh
   docker run \
-         --name moolah-nginx \
+         --name moolah-gunicorn \
          -e HOST="$MOOLAH_HOST" \
          -e DB_PASS="$MOOLAH_DB_PASS" \
          -e SECRET_KEY="$MOOLAH_SECRET_KEY" \
          --link moolah-redis:redis \
          --link moolah-db:db \
-         --link moolah-gunicorn:gunicorn \
-         -p 127.0.0.1:${MOOLAH_PUBLIC_PORT}:80 \
-         -d arecker/moolah:latest nginx
+         --expose 80 \
+         -d arecker/moolah:latest gunicorn
 #+END_SRC
 
-#+RESULTS:
-: cada64a4acaf915a366b198786d816728bbc4f7bcaa2ca6dcc787cfc94bb4e2a
+Lastly, start a public [[https://github.com/arecker/django-proxy][nginx container]]
+
+#+BEGIN_SRC sh
+  docker run \
+         --name moolah-proxy \
+         --link moolah-gunicorn:app \
+         -v /your/static/root:/usr/share/nginx/html \
+         -d arecker/django-proxy:latest
+#+END_SRC
