@@ -5,9 +5,7 @@ python manage.py migrate --noinput
 
 case $1 in
     "gunicorn" )
-	cd /home/docker/src && \
-	    su -c '/usr/local/bin/gunicorn -b 0.0.0.0:80 moolah.wsgi' docker ;;
+	/usr/local/bin/gunicorn -b 0.0.0.0:80 moolah.wsgi;;
     "celery" )
-	cd /home/docker/src && \
-	    su -c '/usr/local/bin/celery worker -A moolah -B --concurrency=1' docker ;;
+	/usr/local/bin/celery worker -A moolah -B --concurrency=1;;
 esac
